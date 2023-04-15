@@ -25,7 +25,7 @@ namespace HRWeb.Models
         [Required(AllowEmptyStrings = true)]
         public string Review { get; set; }
 
-        public List<Employee>? Employees { get; set; }
+        public List<Leave>? Leaves { get; set; }
 
         public Employee()
         {

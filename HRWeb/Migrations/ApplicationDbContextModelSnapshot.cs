@@ -155,9 +155,6 @@ namespace HRWeb.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("EmployeeId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -174,8 +171,6 @@ namespace HRWeb.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.HasIndex("EmployeeId");
-
                     b.ToTable("Employees");
                 });
 
@@ -187,11 +182,7 @@ namespace HRWeb.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("EmployeeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("EmployeeId1")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LeaveEndDate")
@@ -206,7 +197,7 @@ namespace HRWeb.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId1");
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("Leaves");
                 });
@@ -352,18 +343,16 @@ namespace HRWeb.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HRWeb.Models.Employee", null)
-                        .WithMany("Employees")
-                        .HasForeignKey("EmployeeId");
-
                     b.Navigation("Department");
                 });
 
             modelBuilder.Entity("HRWeb.Models.Leave", b =>
                 {
                     b.HasOne("HRWeb.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId1");
+                        .WithMany("Leaves")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Employee");
                 });
@@ -426,7 +415,7 @@ namespace HRWeb.Migrations
 
             modelBuilder.Entity("HRWeb.Models.Employee", b =>
                 {
-                    b.Navigation("Employees");
+                    b.Navigation("Leaves");
                 });
 #pragma warning restore 612, 618
         }

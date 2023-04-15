@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230415083119_initial_web")]
-    partial class initial_web
+    [Migration("20230415163615_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -176,6 +176,34 @@ namespace HRWeb.Migrations
                     b.ToTable("Employees");
                 });
 
+            modelBuilder.Entity("HRWeb.Models.Leave", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("LeaveEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("LeaveStartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Leaves");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -320,6 +348,17 @@ namespace HRWeb.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("HRWeb.Models.Leave", b =>
+                {
+                    b.HasOne("HRWeb.Models.Employee", "Employee")
+                        .WithMany("Leaves")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -374,6 +413,11 @@ namespace HRWeb.Migrations
             modelBuilder.Entity("HRWeb.Models.Department", b =>
                 {
                     b.Navigation("Employees");
+                });
+
+            modelBuilder.Entity("HRWeb.Models.Employee", b =>
+                {
+                    b.Navigation("Leaves");
                 });
 #pragma warning restore 612, 618
         }

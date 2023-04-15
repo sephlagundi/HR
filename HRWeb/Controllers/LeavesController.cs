@@ -22,9 +22,8 @@ namespace HRWeb.Controllers
         // GET: Leaves
         public async Task<IActionResult> Index()
         {
-              return _context.Leaves != null ? 
-                          View(await _context.Leaves.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Leaves'  is null.");
+            var applicationDbContext = _context.Leaves.Include(l => l.Employee);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Leaves/Details/5
@@ -36,6 +35,7 @@ namespace HRWeb.Controllers
             }
 
             var leave = await _context.Leaves
+                .Include(l => l.Employee)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (leave == null)
             {
@@ -48,7 +48,7 @@ namespace HRWeb.Controllers
         // GET: Leaves/Create
         public IActionResult Create()
         {
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Id");
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name");
             return View();
         }
 
@@ -57,7 +57,7 @@ namespace HRWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EmployeeId,LeaveStartDate,LeaveEndDate,Reason")] Leave leave)
+        public async Task<IActionResult> Create([Bind("Id,LeaveStartDate,LeaveEndDate,Reason,EmployeeId")] Leave leave)
         {
             if (ModelState.IsValid)
             {
@@ -65,6 +65,7 @@ namespace HRWeb.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Review", leave.EmployeeId);
             return View(leave);
         }
 
@@ -81,6 +82,7 @@ namespace HRWeb.Controllers
             {
                 return NotFound();
             }
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Review", leave.EmployeeId);
             return View(leave);
         }
 
@@ -89,7 +91,7 @@ namespace HRWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EmployeeId,LeaveStartDate,LeaveEndDate,Reason")] Leave leave)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,LeaveStartDate,LeaveEndDate,Reason,EmployeeId")] Leave leave)
         {
             if (id != leave.Id)
             {
@@ -116,6 +118,7 @@ namespace HRWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Review", leave.EmployeeId);
             return View(leave);
         }
 
@@ -128,6 +131,7 @@ namespace HRWeb.Controllers
             }
 
             var leave = await _context.Leaves
+                .Include(l => l.Employee)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (leave == null)
             {
