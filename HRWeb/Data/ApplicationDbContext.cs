@@ -30,6 +30,8 @@ namespace HRWeb.Data
         public DbSet<Department> Departments { get; set; }
 
 
+        public DbSet<Leave> Leaves { get; set; }
+
 
     }
 }
