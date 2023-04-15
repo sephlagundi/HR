@@ -1,0 +1,39 @@
+﻿@model RegisterUserViewModel
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+<div class="container mt-5">
+    <h2>Registration Form</h2>
+    <form asp-controller="Account" asp-action="Register" method="post">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group">
+            <label asp-for="FirstName"></label>
+            <input type="text" class="form-control" asp-for="FirstName" placeholder="John" style="width: 300px;">
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName"></label>
+            <input type="text" class="form-control" asp-for="LastName" placeholder="Smith" style="width: 300px;">
+        </div>
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input type="text" class="form-control" asp-for="Email" placeholder="John@yahoo.com" style="width: 300px;">
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input class="form-control" asp-for="Password" placeholder="********" style="width: 300px;">
+        </div>
+        <div class="form-group">
+            <label asp-for="ConfirmPassword"></label>
+            <input class="form-control" asp-for="ConfirmPassword" placeholder="********" style="width: 300px;">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Register</button>
+
+
+    </form>
