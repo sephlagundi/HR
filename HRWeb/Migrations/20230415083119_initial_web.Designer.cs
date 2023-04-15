@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230415054630_initial")]
-    partial class initial
+    [Migration("20230415083119_initial_web")]
+    partial class initial_web
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
