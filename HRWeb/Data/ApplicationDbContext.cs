@@ -33,5 +33,8 @@ namespace HRWeb.Data
         public DbSet<Leave> Leaves { get; set; }
 
 
+        public DbSet<HRWeb.Models.LeaveType>? LeaveType { get; set; }
+
+
     }
 }
