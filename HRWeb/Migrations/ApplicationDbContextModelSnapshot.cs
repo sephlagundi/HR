@@ -164,7 +164,6 @@ namespace HRWeb.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Review")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

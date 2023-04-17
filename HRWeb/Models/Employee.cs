@@ -7,6 +7,8 @@ namespace HRWeb.Models
     public class Employee
     {
         public int Id { get; set; }
+
+        [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Invalid name format. Only alphabets, spaces, hyphens, and apostrophes are allowed.")]
         public string Name { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
@@ -22,8 +24,8 @@ namespace HRWeb.Models
         public int DepartmentId { get; set; }
         public Department? Department { get; set; }
 
-        [Required(AllowEmptyStrings = true)]
-        public string Review { get; set; }
+        //[Required(AllowEmptyStrings = true)]
+        public string? Review { get; set; }
 
         public List<Leave>? Leaves { get; set; }
 
