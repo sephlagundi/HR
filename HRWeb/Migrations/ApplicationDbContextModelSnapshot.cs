@@ -172,6 +172,48 @@ namespace HRWeb.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DOB = new DateTime(1998, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartmentId = 1,
+                            Email = "lexter.padua17@gmail.com",
+                            Name = "John Padua",
+                            Phone = "09453823795",
+                            Review = "very bad noob."
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DOB = new DateTime(1995, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartmentId = 1,
+                            Email = "mando@email.com",
+                            Name = "Din Djarin",
+                            Phone = "09453823796",
+                            Review = "Completes given task."
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DOB = new DateTime(1993, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartmentId = 2,
+                            Email = "arthur@email.com",
+                            Name = "Arthur Morgan",
+                            Phone = "09453823797",
+                            Review = "Loyal and follow rules."
+                        },
+                        new
+                        {
+                            Id = 4,
+                            DOB = new DateTime(1992, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartmentId = 3,
+                            Email = "frodo@email.com",
+                            Name = "Frodo Baggins",
+                            Phone = "09453823798",
+                            Review = "Loyal cannot be corrupted."
+                        });
                 });
 
             modelBuilder.Entity("HRWeb.Models.Leave", b =>
@@ -222,6 +264,48 @@ namespace HRWeb.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LeaveType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Birthday Leave"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Vacation Leave"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Emergency Leave"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Leave Without Pay"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Magna Carta Leave"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Sick Leave"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Name = "Official Business"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Solo Parent Leave"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

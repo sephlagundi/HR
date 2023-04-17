@@ -65,6 +65,19 @@ namespace HRWeb.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LeaveType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LeaveType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -203,7 +216,8 @@ namespace HRWeb.Migrations
                     LeaveStartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LeaveEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Reason = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    LeaveTypeId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -212,6 +226,12 @@ namespace HRWeb.Migrations
                         name: "FK_Leaves_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Leaves_LeaveType_LeaveTypeId",
+                        column: x => x.LeaveTypeId,
+                        principalTable: "LeaveType",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -225,6 +245,32 @@ namespace HRWeb.Migrations
                     { 2, "Accounting Department" },
                     { 3, "Human Resources Department" },
                     { 4, "Marketing Department" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "LeaveType",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Birthday Leave" },
+                    { 2, "Vacation Leave" },
+                    { 3, "Emergency Leave" },
+                    { 4, "Leave Without Pay" },
+                    { 5, "Magna Carta Leave" },
+                    { 6, "Sick Leave" },
+                    { 7, "Official Business" },
+                    { 8, "Solo Parent Leave" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Employees",
+                columns: new[] { "Id", "DOB", "DepartmentId", "Email", "Name", "Phone", "Review" },
+                values: new object[,]
+                {
+                    { 1, new DateTime(1998, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "lexter.padua17@gmail.com", "John Padua", "09453823795", "very bad noob." },
+                    { 2, new DateTime(1995, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "mando@email.com", "Din Djarin", "09453823796", "Completes given task." },
+                    { 3, new DateTime(1993, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "arthur@email.com", "Arthur Morgan", "09453823797", "Loyal and follow rules." },
+                    { 4, new DateTime(1992, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "frodo@email.com", "Frodo Baggins", "09453823798", "Loyal cannot be corrupted." }
                 });
 
             migrationBuilder.CreateIndex(
@@ -275,6 +321,11 @@ namespace HRWeb.Migrations
                 name: "IX_Leaves_EmployeeId",
                 table: "Leaves",
                 column: "EmployeeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Leaves_LeaveTypeId",
+                table: "Leaves",
+                column: "LeaveTypeId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -305,6 +356,9 @@ namespace HRWeb.Migrations
 
             migrationBuilder.DropTable(
                 name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "LeaveType");
 
             migrationBuilder.DropTable(
                 name: "Departments");
