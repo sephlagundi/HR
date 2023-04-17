@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HRapi.Models
+namespace HRapi2.Models
 {
     public class Employee
     {

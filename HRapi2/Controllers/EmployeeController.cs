@@ -1,12 +1,10 @@
-﻿using HRapi.Data;
-using HRapi.Models;
+﻿using HRapi2.Data;
+using HRapi2.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Collections;
 
-namespace HRapi.Controllers
+namespace HRapi2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -34,7 +32,7 @@ namespace HRapi.Controllers
             await _context.Employees.AddAsync(employee);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetById), new {id = employee.Id}, employee);
+            return CreatedAtAction(nameof(GetById), new { id = employee.Id }, employee);
         }
 
         [HttpPut("{id}")]
@@ -60,9 +58,9 @@ namespace HRapi.Controllers
 
             _context.Employees.Remove(employeeToDelete);
             await _context.SaveChangesAsync();
-            
+
             return NoContent();
         }
-        
+
     }
 }

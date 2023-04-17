@@ -9,7 +9,7 @@
 <p>
     <a class="btn btn-info" asp-action="Create">Add New Employee</a>
 </p>
-<form asp-controller="Employees" asp-action="Index" method="get">
+<form asp-controller="Employee" asp-action="Index" method="get">
     <p>
         <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" />
         <input type="submit" value="Search" />
