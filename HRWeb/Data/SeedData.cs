@@ -1,4 +1,5 @@
 ﻿using HRWeb.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace HRWeb.Data
@@ -30,6 +31,9 @@ namespace HRWeb.Data
                 new LeaveType(6, "Sick Leave"),
                 new LeaveType(7, "Official Business"),
                 new LeaveType(8, "Solo Parent Leave"));
+
+            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole("Administrator"));
         }
     }
 }
