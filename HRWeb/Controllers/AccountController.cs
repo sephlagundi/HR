@@ -34,6 +34,53 @@ namespace HRWeb.Controllers
             return View();
         }
 
+        /*        [HttpPost]
+                public async Task<IActionResult> Register(RegisterUserViewModel userViewModel)
+                {
+                    if (ModelState.IsValid)
+                    {
+                        var userModel = new ApplicationUser
+                        {
+                            UserName = userViewModel.Email,
+                            Email = userViewModel.Email,
+                            FirstName = userViewModel.FirstName,
+                            LastName = userViewModel.LastName,
+
+
+                        };
+                        var result = await _userManager.CreateAsync(userModel, userViewModel.Password);
+                        if (result.Succeeded)
+                        {
+                            //ADD ROLES AND ALLOW THEM TO LOGIN
+                            // ASSIGN DEFAULT ROLE 
+                            var role = _roleManager.Roles.FirstOrDefault(r => r.Name == "User");
+                            if (role != null)
+                            {
+                                var roleResult = await _userManager.AddToRoleAsync(userModel, role.Name);
+
+                                if (!roleResult.Succeeded)
+                                {
+                                    ModelState.AddModelError(String.Empty, "Role cannot be assigned");
+                                }
+                            }
+
+
+
+                            //LOG IN THE USER AUTOMATICALLY
+                            await _signInManager.SignInAsync(userModel, isPersistent: false);
+                            return RedirectToAction("Index", "Home");
+                        }
+
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+
+                    }
+
+                    return View(userViewModel);
+                }*/
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterUserViewModel userViewModel)
         {
@@ -45,26 +92,23 @@ namespace HRWeb.Controllers
                     Email = userViewModel.Email,
                     FirstName = userViewModel.FirstName,
                     LastName = userViewModel.LastName,
-
-
                 };
                 var result = await _userManager.CreateAsync(userModel, userViewModel.Password);
                 if (result.Succeeded)
                 {
                     //ADD ROLES AND ALLOW THEM TO LOGIN
                     // ASSIGN DEFAULT ROLE 
-                    var role = _roleManager.Roles.FirstOrDefault(r => r.Name == "User");
-                    if (role != null)
+                    if (!await _roleManager.RoleExistsAsync("User"))
                     {
-                        var roleResult = await _userManager.AddToRoleAsync(userModel, role.Name);
-
-                        if (!roleResult.Succeeded)
-                        {
-                            ModelState.AddModelError(String.Empty, "Role cannot be assigned");
-                        }
+                        await _roleManager.CreateAsync(new IdentityRole("User"));
                     }
+                    var role = await _roleManager.FindByNameAsync("User");
+                    var roleResult = await _userManager.AddToRoleAsync(userModel, role.Name);
 
-
+                    if (!roleResult.Succeeded)
+                    {
+                        ModelState.AddModelError(String.Empty, "Role cannot be assigned");
+                    }
 
                     //LOG IN THE USER AUTOMATICALLY
                     await _signInManager.SignInAsync(userModel, isPersistent: false);

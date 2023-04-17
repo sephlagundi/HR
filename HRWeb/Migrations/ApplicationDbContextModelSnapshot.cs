@@ -332,6 +332,14 @@ namespace HRWeb.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "239eda4c-44d3-4cd4-93b8-35945b8f982f",
+                            ConcurrencyStamp = "363b1f87-7102-4b11-b044-cb72b2fd6939",
+                            Name = "Administrator"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
