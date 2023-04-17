@@ -32,8 +32,8 @@ namespace HRWeb.Data
                 new LeaveType(7, "Official Business"),
                 new LeaveType(8, "Solo Parent Leave"));
 
-            modelBuilder.Entity<IdentityRole>().HasData(
-                new IdentityRole("Administrator"));
+/*            modelBuilder.Entity<IdentityRole>().HasData(
+                new IdentityRole("Administrator"));*/
         }
     }
 }

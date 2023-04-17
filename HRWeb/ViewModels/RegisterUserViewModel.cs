@@ -24,5 +24,7 @@ namespace HRWeb.ViewModels
         [Display(Name = "Confirm Password")]
         [Compare("Password", ErrorMessage = "Password doesn't match")]
         public string ConfirmPassword { get; set; }
+
+        public string roleName { get; set; }
     }
 }

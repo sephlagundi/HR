@@ -51,6 +51,13 @@
                             <li class="nav-item">
                                 <a class="nav-link text-white" asp-area="" asp-controller="Role" asp-action="GetAllRoles">Role</a>
                             </li>
+                                               @if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+                        { 
+
+                        <li class="nav-item">
+                                        <a class="nav-link text-white" asp-area="" asp-controller="Role" asp-action="GetAllRoles">YOURE ADMIN</a>
+                        </li>
+                        }
                         
                     </ul>
 

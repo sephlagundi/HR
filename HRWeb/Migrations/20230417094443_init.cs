@@ -237,11 +237,6 @@ namespace HRWeb.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "239eda4c-44d3-4cd4-93b8-35945b8f982f", "363b1f87-7102-4b11-b044-cb72b2fd6939", "Administrator", null });
-
-            migrationBuilder.InsertData(
                 table: "Departments",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]

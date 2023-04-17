@@ -12,11 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:HRWeb/Migrations/20230417054008_init.Designer.cs
-    [Migration("20230417054008_init")]
-========
-    [Migration("20230417054323_init")]
->>>>>>>> f26b37dce3da306cb79e1988d84d055a899de325:HRWeb/Migrations/20230417054323_init.Designer.cs
+    [Migration("20230417094443_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -338,14 +334,6 @@ namespace HRWeb.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "239eda4c-44d3-4cd4-93b8-35945b8f982f",
-                            ConcurrencyStamp = "363b1f87-7102-4b11-b044-cb72b2fd6939",
-                            Name = "Administrator"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

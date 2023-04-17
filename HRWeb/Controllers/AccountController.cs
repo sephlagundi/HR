@@ -2,6 +2,7 @@
 using HRWeb.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
 namespace HRWeb.Controllers
 {
@@ -81,49 +82,92 @@ namespace HRWeb.Controllers
                     return View(userViewModel);
                 }*/
 
-        [HttpPost]
-        public async Task<IActionResult> Register(RegisterUserViewModel userViewModel)
+
+
+
+
+
+
+
+
+
+[HttpPost]
+public async Task<IActionResult> Register(RegisterUserViewModel userViewModel, string roleName)
+{
+    if (ModelState.IsValid)
+    {
+        var userModel = new ApplicationUser
         {
-            if (ModelState.IsValid)
+            UserName = userViewModel.Email,
+            Email = userViewModel.Email,
+            FirstName = userViewModel.FirstName,
+            LastName = userViewModel.LastName,
+        };
+        var result = await _userManager.CreateAsync(userModel, userViewModel.Password);
+        if (result.Succeeded)
+        {
+            // ADD ROLES AND ALLOW THEM TO LOGIN
+            // ASSIGN DEFAULT ROLE 
+            if (!await _roleManager.RoleExistsAsync("User"))
             {
-                var userModel = new ApplicationUser
-                {
-                    UserName = userViewModel.Email,
-                    Email = userViewModel.Email,
-                    FirstName = userViewModel.FirstName,
-                    LastName = userViewModel.LastName,
-                };
-                var result = await _userManager.CreateAsync(userModel, userViewModel.Password);
-                if (result.Succeeded)
-                {
-                    //ADD ROLES AND ALLOW THEM TO LOGIN
-                    // ASSIGN DEFAULT ROLE 
-                    if (!await _roleManager.RoleExistsAsync("User"))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole("User"));
-                    }
-                    var role = await _roleManager.FindByNameAsync("User");
-                    var roleResult = await _userManager.AddToRoleAsync(userModel, role.Name);
-
-                    if (!roleResult.Succeeded)
-                    {
-                        ModelState.AddModelError(String.Empty, "Role cannot be assigned");
-                    }
-
-                    //LOG IN THE USER AUTOMATICALLY
-                    await _signInManager.SignInAsync(userModel, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
-                }
-
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
-
+                await _roleManager.CreateAsync(new IdentityRole("User"));
+            }
+            if (!await _roleManager.RoleExistsAsync("Administrator"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole("Administrator"));
             }
 
-            return View(userViewModel);
+            var role = await _roleManager.FindByNameAsync(roleName);
+            if (role != null)
+            {
+                var roleResult = await _userManager.AddToRoleAsync(userModel, role.Name);
+                if (!roleResult.Succeeded)
+                {
+                    ModelState.AddModelError(String.Empty, "Role cannot be assigned");
+                }
+            }
+            else
+            {
+                ModelState.AddModelError(String.Empty, "Invalid role");
+            }
+
+
+            //LOG IN THE USER AUTOMATICALLY
+            await _signInManager.SignInAsync(userModel, isPersistent: false);
+            return RedirectToAction("Index", "Home");
+
         }
+
+        foreach (var error in result.Errors)
+        {
+            ModelState.AddModelError(string.Empty, error.Description);
+        }
+
+    }
+
+    return View(userViewModel);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         [HttpGet]
         public IActionResult LogIn()
