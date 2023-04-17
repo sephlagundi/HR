@@ -1,5 +1,4 @@
 ﻿using HRWeb.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace HRWeb.Data
@@ -23,21 +22,14 @@ namespace HRWeb.Data
                 new Department(4, "Marketing Department"));
 
             modelBuilder.Entity<LeaveType>().HasData(
-                new LeaveType(1, "Birthday Leave"),
-                new LeaveType(2, "Vacation Leave"),
-                new LeaveType(3, "Emergency Leave"),
-                new LeaveType(4, "Leave Without Pay"),
-                new LeaveType(5, "Magna Carta Leave"),
-                new LeaveType(6, "Sick Leave"),
-                new LeaveType(7, "Official Business"),
-                new LeaveType(8, "Solo Parent Leave"));
-
-            modelBuilder.Entity<IdentityRole>().HasData(
-                new IdentityRole("Administrator"));
-                /*new IdentityRole("User"));*/
-
-
-
+                new Department(1, "Birthday Leave"),
+                new Department(2, "Vacation Leave"),
+                new Department(3, "Emergency Leave"),
+                new Department(4, "Leave Without Pay"),
+                new Department(5, "Magna Carta Leave"),
+                new Department(6, "Sick Leave"),
+                new Department(7, "Official Business"),
+                new Department(8, "Solo Parent Leave"));
         }
     }
 }
