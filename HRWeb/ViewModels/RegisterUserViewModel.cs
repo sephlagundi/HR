@@ -5,10 +5,10 @@ namespace HRWeb.ViewModels
 {
     public class RegisterUserViewModel
     {
-        [Required]
+        [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Invalid name format. Only alphabets, spaces, hyphens, and apostrophes are allowed.")]
         public string FirstName { get; set; }
 
-        [Required]
+        [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Invalid name format. Only alphabets, spaces, hyphens, and apostrophes are allowed.")]
         public string LastName { get; set; }
 
         [Required]
