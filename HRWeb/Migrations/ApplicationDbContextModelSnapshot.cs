@@ -186,6 +186,16 @@ namespace HRWeb.Migrations
                         new
                         {
                             Id = 2,
+                            DOB = new DateTime(1995, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartmentId = 1,
+                            Email = "joseph@gmail.com",
+                            Name = "Joseph Lagundi",
+                            Phone = "09692316611",
+                            Review = "good noob."
+                        },
+                        new
+                        {
+                            Id = 3,
                             DOB = new DateTime(1995, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = 1,
                             Email = "mando@email.com",
@@ -195,7 +205,7 @@ namespace HRWeb.Migrations
                         },
                         new
                         {
-                            Id = 3,
+                            Id = 4,
                             DOB = new DateTime(1993, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = 2,
                             Email = "arthur@email.com",
@@ -205,7 +215,7 @@ namespace HRWeb.Migrations
                         },
                         new
                         {
-                            Id = 4,
+                            Id = 5,
                             DOB = new DateTime(1992, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = 3,
                             Email = "frodo@email.com",

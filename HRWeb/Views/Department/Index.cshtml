@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<HRWeb.Models.Department>
+@inject SignInManager<ApplicationUser> _signInManager
 
 @{
     ViewData["Title"] = "Departments";
@@ -6,9 +7,14 @@
 
 <h1>Departments</h1>
 
+
+@if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+{
 <p>
     <a class="btn btn-info" asp-action="Create">Add New Department</a>
 </p>
+}
+
 
 <form asp-controller="Department" asp-action="Index" method="get">
     <p>
@@ -33,11 +39,17 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
-                <td>
-                        <a class="btn btn-info"  asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a class="btn btn-info"  asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a class="btn btn-info"  asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
+
+                @if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+                {
+
+                    <td>
+                            <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a class="btn btn-info" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+
+                }
             </tr>
         }
     </tbody>

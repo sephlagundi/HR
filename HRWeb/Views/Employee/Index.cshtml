@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<HRWeb.Models.Employee>
+@inject SignInManager<ApplicationUser> _signInManager
 
 @{
     ViewData["Title"] = "Employees";
@@ -6,9 +7,14 @@
 
 <h1>Employees</h1>
 
-<p>
-    <a class="btn btn-info" asp-action="Create">Add New Employee</a>
-</p>
+
+@if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+{
+    <p>
+        <a class="btn btn-info" asp-action="Create">Add New Employee</a>
+    </p>
+}
+
 <form asp-controller="Employee" asp-action="Index" method="get">
     <p>
         <input type="text" name="searchString" value="@ViewData["CurrentFilter"]" />
@@ -56,11 +62,19 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Department.Name)
             </td>
+
+
+
+                @if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+                {
+
             <td>
                     <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                     <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a class="btn btn-info" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
+
+                }
         </tr>
 }
     </tbody>

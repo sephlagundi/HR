@@ -268,9 +268,10 @@ namespace HRWeb.Migrations
                 values: new object[,]
                 {
                     { 1, new DateTime(1998, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "lexter.padua17@gmail.com", "John Padua", "09453823795", "very bad noob." },
-                    { 2, new DateTime(1995, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "mando@email.com", "Din Djarin", "09453823796", "Completes given task." },
-                    { 3, new DateTime(1993, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "arthur@email.com", "Arthur Morgan", "09453823797", "Loyal and follow rules." },
-                    { 4, new DateTime(1992, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "frodo@email.com", "Frodo Baggins", "09453823798", "Loyal cannot be corrupted." }
+                    { 2, new DateTime(1995, 7, 5, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "joseph@gmail.com", "Joseph Lagundi", "09692316611", "good noob." },
+                    { 3, new DateTime(1995, 2, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, "mando@email.com", "Din Djarin", "09453823796", "Completes given task." },
+                    { 4, new DateTime(1993, 5, 12, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, "arthur@email.com", "Arthur Morgan", "09453823797", "Loyal and follow rules." },
+                    { 5, new DateTime(1992, 11, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, "frodo@email.com", "Frodo Baggins", "09453823798", "Loyal cannot be corrupted." }
                 });
 
             migrationBuilder.CreateIndex(

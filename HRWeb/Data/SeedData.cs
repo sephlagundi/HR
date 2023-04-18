@@ -10,9 +10,10 @@ namespace HRWeb.Data
         {
             modelBuilder.Entity<Employee>().HasData(
             new Employee(1, "John Padua", new DateTime(1998, 12, 1), "lexter.padua17@gmail.com", "09453823795", 1, "very bad noob."),
-            new Employee(2, "Din Djarin", new DateTime(1995, 2, 3), "mando@email.com", "09453823796", 1, "Completes given task."),
-            new Employee(3, "Arthur Morgan", new DateTime(1993, 5, 12), "arthur@email.com", "09453823797", 2, "Loyal and follow rules."),
-            new Employee(4, "Frodo Baggins", new DateTime(1992, 11, 15), "frodo@email.com", "09453823798", 3, "Loyal cannot be corrupted."));
+            new Employee(2, "Joseph Lagundi", new DateTime(1995, 07, 5), "joseph@gmail.com", "09692316611", 1, "good noob."),
+            new Employee(3, "Din Djarin", new DateTime(1995, 2, 3), "mando@email.com", "09453823796", 1, "Completes given task."),
+            new Employee(4, "Arthur Morgan", new DateTime(1993, 5, 12), "arthur@email.com", "09453823797", 2, "Loyal and follow rules."),
+            new Employee(5, "Frodo Baggins", new DateTime(1992, 11, 15), "frodo@email.com", "09453823798", 3, "Loyal cannot be corrupted."));
 
 
 
