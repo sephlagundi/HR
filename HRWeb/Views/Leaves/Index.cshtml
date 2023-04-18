@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<HRWeb.Models.Leave>
+@inject SignInManager<ApplicationUser> _signInManager
 
 @{
     ViewData["Title"] = "Index";
@@ -57,10 +58,15 @@
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
 
-
+                @if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrator")){
             <td>
-                    <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                    </td>
+                }
+                    <td>
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+                <td>
                     <a class="btn btn-info" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
 
