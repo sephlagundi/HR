@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230418020403_init")]
+    [Migration("20230418034618_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -248,6 +248,10 @@ namespace HRWeb.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Reason")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

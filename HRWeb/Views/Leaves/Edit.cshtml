@@ -1,4 +1,5 @@
 ﻿@model HRWeb.Models.Leave
+@inject SignInManager<ApplicationUser> _signInManager
 
 @{
     ViewData["Title"] = "Edit";
@@ -38,6 +39,17 @@
                 <input asp-for="Reason" class="form-control" />
                 <span asp-validation-for="Reason" class="text-danger"></span>
             </div>
+
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control">
+                    <option value="Pending">Pending</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            
 
 
             <div class="form-group">

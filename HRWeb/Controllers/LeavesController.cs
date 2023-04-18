@@ -55,14 +55,14 @@ namespace HRWeb.Controllers
         }
 
         // POST: Leaves/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LeaveStartDate,LeaveEndDate,Reason,EmployeeId,LeaveTypeId")] Leave leave)
+        public async Task<IActionResult> Create([Bind("Id,LeaveStartDate,LeaveEndDate,Reason,Status,EmployeeId,LeaveTypeId")] Leave leave)
         {
             if (ModelState.IsValid)
             {
+                leave.Status = "Pending";
+               
                 _context.Add(leave);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -91,11 +91,9 @@ namespace HRWeb.Controllers
         }
 
         // POST: Leaves/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,LeaveStartDate,LeaveEndDate,Reason,EmployeeId,LeaveTypeId")] Leave leave)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,LeaveStartDate,LeaveEndDate,Reason,EmployeeId,LeaveTypeId,Status")] Leave leave)
         {
             if (id != leave.Id)
             {
@@ -106,6 +104,8 @@ namespace HRWeb.Controllers
             {
                 try
                 {
+                    // Update the status property
+                     // Set the status to "Pending" or update to the desired status
                     _context.Update(leave);
                     await _context.SaveChangesAsync();
                 }
@@ -126,6 +126,7 @@ namespace HRWeb.Controllers
             ViewData["LeaveTypeId"] = new SelectList(_context.LeaveType, "Id", "Id", leave.LeaveTypeId);
             return View(leave);
         }
+
 
         // GET: Leaves/Delete/5
         public async Task<IActionResult> Delete(int? id)
