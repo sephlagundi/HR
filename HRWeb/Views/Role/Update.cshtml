@@ -5,14 +5,33 @@
 <form method="post" asp-action="Update" asp-controller="Role">
     <!-- need of form element in HTML 5-->
     <div asp-validation-summary="All" class="danger-text"></div>
-    <div>
-        <label asp-for="Id"></label>
-        <input asp-for="Id" readonly />
-    </div>
-    <div>
-        <label asp-for="Name"></label>
-        <input asp-for="Name" />
+
+    <div class="form-group">
+        <label asp-for="Id" class="control-label"></label>
+        <input asp-for="Id" class="form-control" readonly />
     </div>
 
-    <button type="submit">Update</button>
+
+
+    <div class="form-group" size="30">
+        <label asp-for="Name" class="control-label" ></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <p>
+    <div class="form-group">
+    <button class="btn btn-info" type="submit">Update</button>
+    </div>
+    </p>
+
+    <p>
+    <div class="form-group">
+        <a asp-action="GetAllRoles">Back to List</a>
+    </div>
+    </p>
+
+
 </form>
+
+

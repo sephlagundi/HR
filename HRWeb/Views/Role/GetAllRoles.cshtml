@@ -16,22 +16,22 @@
 <table class="table"
     <thead class="thead-dark">
         <tr>
-            <th scope="col">#</th>
+@*            <th scope="col">#</th>*@
             <th scope="col">Name</th>
             <th scope="col"></th>
-            <th scope="col"></th>
-            <th scope="col"></th>
+
         </tr>
     </thead>
     <tbody>
         @foreach (var role in Model)
         {
             <tr>
-                <th scope="row">@role.Id</th>
+@*                <th scope="row">@role.Id</th>*@
                 <td>@role.Name</td>
-                <td><a class="btn btn-info"  asp-controller="Role" asp-action="Details" asp-route-roleId="@role.Id">View</a></td>
-                <td><a class="btn btn-info"  asp-controller="Role" asp-action="Update" asp-route-roleId="@role.Id">Edit</a></td>
-                <td><a class="btn btn-info"  asp-controller="Role" asp-action="Delete" asp-route-roleId="@role.Id">Delete</a></td>
+
+
+                <td><a class="btn btn-info"  asp-controller="Role" asp-action="Update" asp-route-roleId="@role.Id">Edit</a>
+                <a class="btn btn-info"  asp-controller="Role" asp-action="Delete" asp-route-roleId="@role.Id">Delete</a></td>
             </tr>
         }
     </tbody>

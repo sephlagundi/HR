@@ -26,10 +26,12 @@
                 <input asp-for="LeaveEndDate" class="form-control" />
                 <span asp-validation-for="LeaveEndDate" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="LeaveType" class="control-label"></label>
                 <select asp-for="LeaveTypeId" class="forms-control" asp-items="ViewBag.LeaveTypeId"></select>
             </div>
+
             <div class="form-group">
                 <label asp-for="Reason" class="control-label"></label>
                 <input asp-for="Reason" class="form-control" />
