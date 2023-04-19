@@ -18,6 +18,9 @@
                 @Html.DisplayNameFor(model => model.Employee)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.LeaveStartDate)
             </th>
             <th>
@@ -41,6 +44,9 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Employee.Name)
+            </td>
+             <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LeaveStartDate)

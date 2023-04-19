@@ -67,8 +67,8 @@ namespace HRWeb.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Review", leave.EmployeeId);
-            ViewData["LeaveTypeId"] = new SelectList(_context.LeaveType, "Id", "Id", leave.LeaveTypeId);
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name", leave.EmployeeId);
+            ViewData["LeaveTypeId"] = new SelectList(_context.LeaveType, "Id", "Name", leave.LeaveTypeId);
             return View(leave);
         }
 
@@ -122,8 +122,8 @@ namespace HRWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Review", leave.EmployeeId);
-            ViewData["LeaveTypeId"] = new SelectList(_context.LeaveType, "Id", "Id", leave.LeaveTypeId);
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name", leave.EmployeeId);
+            ViewData["LeaveTypeId"] = new SelectList(_context.LeaveType, "Id", "Name", leave.LeaveTypeId);
             return View(leave);
         }
 
