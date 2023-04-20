@@ -5,6 +5,20 @@
     ViewData["Title"] = "Index";
 }
 
+@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.SuccessMessage
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.ErrorMessage
+    </div>
+}
+
 <h1>Leave Request</h1>
 
 <p>
@@ -40,42 +54,40 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Employee.Name)
-            </td>
-             <td>
-                @Html.DisplayFor(modelItem => item.CreatedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaveStartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaveEndDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeaveType.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Reason)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Employee.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveStartDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveEndDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeaveType.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Reason)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Status)
                 </td>
-
-                @if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrator")){
-            <td>
-                    <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                @if (_signInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+                {
+                    <td>
+                        <a class="btn btn-info" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
                     </td>
                 }
-
                 <td>
                     <a class="btn btn-info" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-
-
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

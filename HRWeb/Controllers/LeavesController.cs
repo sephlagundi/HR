@@ -23,6 +23,11 @@ namespace HRWeb.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Leaves.Include(l => l.Employee).Include(l => l.LeaveType);
+
+            // Check for TempData messages and add them to the ViewBag
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            ViewBag.ErrorMessage = TempData["ErrorMessage"];
+
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -62,13 +67,21 @@ namespace HRWeb.Controllers
             if (ModelState.IsValid)
             {
                 leave.Status = "Pending";
-               
+
                 _context.Add(leave);
                 await _context.SaveChangesAsync();
+
+                // Add success message to TempData
+                TempData["SuccessMessage"] = "Leave request has been created successfully.";
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name", leave.EmployeeId);
             ViewData["LeaveTypeId"] = new SelectList(_context.LeaveType, "Id", "Name", leave.LeaveTypeId);
+
+            // Add error message to TempData
+            TempData["ErrorMessage"] = "Failed to create leave request.";
+
             return View(leave);
         }
 
@@ -105,9 +118,14 @@ namespace HRWeb.Controllers
                 try
                 {
                     // Update the status property
-                     // Set the status to "Pending" or update to the desired status
+                    // Set the status to "Pending" or update to the desired status
                     _context.Update(leave);
                     await _context.SaveChangesAsync();
+
+                    // Add success message to TempData
+                    TempData["SuccessMessage"] = "Leave request has been updated successfully.";
+
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -120,10 +138,13 @@ namespace HRWeb.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name", leave.EmployeeId);
             ViewData["LeaveTypeId"] = new SelectList(_context.LeaveType, "Id", "Name", leave.LeaveTypeId);
+
+            // Add error message to TempData
+            TempData["ErrorMessage"] = "Failed to update leave request.";
+
             return View(leave);
         }
 
