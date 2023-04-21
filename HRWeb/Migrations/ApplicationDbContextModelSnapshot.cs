@@ -96,6 +96,26 @@ namespace HRWeb.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "858beae6-f28a-48bf-9eb2-fcf575c75c5b",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6648de06-2d9f-4ebb-99ee-eab50d6f4628",
+                            Email = "admin@admin.com",
+                            EmailConfirmed = true,
+                            FirstName = "Admin",
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@ADMIN.COM",
+                            NormalizedUserName = "ADMIN@ADMIN.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAENOp3Uabmh4Y2DomOoVBWPErMTH4UTGFNEDfKKu9f2yAxPWCkGZ0kYXn+sIEA8C4/g==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "940bddc6-f968-4f86-a3c4-48534fbe2016",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@admin.com"
+                        });
                 });
 
             modelBuilder.Entity("HRWeb.Models.Department", b =>
@@ -234,7 +254,7 @@ namespace HRWeb.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
                     b.Property<int>("EmployeeId")
@@ -350,6 +370,22 @@ namespace HRWeb.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "b37471b6-ef3c-4cf9-890c-6d8d57c94558",
+                            ConcurrencyStamp = "9626941f-fa39-46b3-9e74-1fdc919f3e82",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "89d47c6e-961b-458c-af9a-beacb944c270",
+                            ConcurrencyStamp = "d625e77a-2efe-4628-939d-5ad95e670984",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -437,6 +473,13 @@ namespace HRWeb.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "858beae6-f28a-48bf-9eb2-fcf575c75c5b",
+                            RoleId = "b37471b6-ef3c-4cf9-890c-6d8d57c94558"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>

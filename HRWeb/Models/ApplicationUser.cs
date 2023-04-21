@@ -8,6 +8,7 @@ namespace HRWeb.Models
         public string LastName { get; set; }
         public DateTime? DOB { get; set; }
 
+
        
     }
 }

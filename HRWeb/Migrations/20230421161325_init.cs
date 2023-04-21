@@ -239,6 +239,20 @@ namespace HRWeb.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "89d47c6e-961b-458c-af9a-beacb944c270", "d625e77a-2efe-4628-939d-5ad95e670984", "User", "USER" },
+                    { "b37471b6-ef3c-4cf9-890c-6d8d57c94558", "9626941f-fa39-46b3-9e74-1fdc919f3e82", "Administrator", "ADMINISTRATOR" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DOB", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "858beae6-f28a-48bf-9eb2-fcf575c75c5b", 0, "6648de06-2d9f-4ebb-99ee-eab50d6f4628", null, "admin@admin.com", true, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAENOp3Uabmh4Y2DomOoVBWPErMTH4UTGFNEDfKKu9f2yAxPWCkGZ0kYXn+sIEA8C4/g==", null, false, "940bddc6-f968-4f86-a3c4-48534fbe2016", false, "admin@admin.com" });
+
+            migrationBuilder.InsertData(
                 table: "Departments",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
@@ -263,6 +277,11 @@ namespace HRWeb.Migrations
                     { 7, "Official Business" },
                     { 8, "Solo Parent Leave" }
                 });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[] { "b37471b6-ef3c-4cf9-890c-6d8d57c94558", "858beae6-f28a-48bf-9eb2-fcf575c75c5b" });
 
             migrationBuilder.InsertData(
                 table: "Employees",

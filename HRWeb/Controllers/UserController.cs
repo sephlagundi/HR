@@ -8,82 +8,80 @@ using System.Data;
 namespace HRWeb.Controllers
 {
 
-        /*[Authorize(Roles = "Administrator")]*/
-        public class UserController : Controller
+    /*[Authorize(Roles = "Administrator")]*/
+    public class UserController : Controller
+    {
+        private UserManager<ApplicationUser> _userManager { get; }
+        public RoleManager<IdentityRole> _roleManager { get; }
+        public SignInManager<ApplicationUser> _signInManager { get; }
+        public UserController(UserManager<ApplicationUser> userManager, 
+            RoleManager<IdentityRole> roleManager,
+            SignInManager<ApplicationUser> signInManager)
         {
-            private UserManager<ApplicationUser> _userManager { get; }
-            public RoleManager<IdentityRole> _roleManager { get; }
-            public UserController(UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _signInManager = signInManager;
+        }
+        // [AllowAnonymous]
+        public async Task<IActionResult> GetAllUsersAsync()
+        {
+            var userViewModel = new List<UserRoleViewModel>();
+            var userWithRole = _roleManager.Roles.ToList();
+
+            foreach (var role in userWithRole)
             {
-                _userManager = userManager;
-                _roleManager = roleManager;
-            }
-
-
-
-
-
-
-
-
-
-            // [AllowAnonymous]
-            public async Task<IActionResult> GetAllUsersAsync()
-            {
-                var userViewModel = new List<UserRoleViewModel>();
-                var userWithRole = _roleManager.Roles.ToList();
-
-                foreach (var role in userWithRole)
+                var userlist = await _userManager.GetUsersInRoleAsync(role.Name);
+                foreach (var user in userlist)
                 {
-                    var userlist = await _userManager.GetUsersInRoleAsync(role.Name);
-                    foreach (var user in userlist)
+                    userViewModel.Add(new UserRoleViewModel
                     {
-                        userViewModel.Add(new UserRoleViewModel
-                        {
-                            userId = user.Id,
-                            FirstName = user.FirstName,
-                            LastName = user.LastName,
-                            Email = user.Email,
-                            roleName = role.Name,
-                        });
-                    }
+                        userId = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        roleName = role.Name,
+                    });
                 }
-
-                return View(userViewModel);
-            }
-            public IActionResult Details(string userId)
-            {
-                var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
-                return View(user);
-            }
-            public async Task<IActionResult> Delete(string userId)
-            {
-                var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
-                var userlist = await _userManager.DeleteAsync(user);
-                return RedirectToAction(controllerName: "User", actionName: "GetAllUsers"); // reload the getall page it self
             }
 
-            [HttpGet]
-            public IActionResult Create()
+            return View(userViewModel);
+        }
+
+
+
+
+        public IActionResult Details(string userId)
+        {
+            var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
+            return View(user);
+        }
+        public async Task<IActionResult> Delete(string userId)
+        {
+            var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
+            var userlist = await _userManager.DeleteAsync(user);
+            return RedirectToAction(controllerName: "User", actionName: "GetAllUsers"); // reload the getall page it self
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Create(RegisterUserViewModel userViewModel) // model binded this where the views data is accepted 
+        {
+            if (ModelState.IsValid)
             {
-                return View();
-            }
-            [HttpPost]
-            public async Task<IActionResult> Create(RegisterUserViewModel userViewModel) // model binded this where the views data is accepted 
-            {
-                if (ModelState.IsValid)
+                var userModel = new ApplicationUser
                 {
-                    var userModel = new ApplicationUser
-                    {
-                        UserName = userViewModel.Email,
-                        Email = userViewModel.Email,
-                        FirstName = userViewModel.FirstName,
-                        LastName = userViewModel.LastName
-                    };
-                    var result = await _userManager.CreateAsync(userModel, userViewModel.Password);
-                    if (result.Succeeded)
-                    {
+                    UserName = userViewModel.Email,
+                    Email = userViewModel.Email,
+                    FirstName = userViewModel.FirstName,
+                    LastName = userViewModel.LastName
+                };
+                var result = await _userManager.CreateAsync(userModel, userViewModel.Password);
+                if (result.Succeeded)
+                {
                     //ADD ROLES AND ALLOW THEM TO LOGIN
                     // ASSIGN DEFAULT ROLE 
                     var role = _roleManager.Roles.FirstOrDefault(r => r.Name == "User");
@@ -97,39 +95,43 @@ namespace HRWeb.Controllers
                         }
                     }
 
-                }
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                }
-                return View(userViewModel);
-            }
 
-            [HttpGet]
-            public async Task<IActionResult> Update(string userId)
-            {
-                var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
-                var roles = await _userManager.GetRolesAsync(user);
-                EditUserViewModel userViewModel = new EditUserViewModel()
+
+                    //LOG IN THE USER AUTOMATICALLY
+                    await _signInManager.SignInAsync(userModel, isPersistent: false);
+                    return RedirectToAction("Index", "Home");
+                }
+
+                foreach (var error in result.Errors)
                 {
-                    FirstName = user.FirstName,
-                    Email = user.Email,
-                    LastName = user.LastName,
-                    Roles = roles
-                };
-                return View(userViewModel);
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+
             }
-            [HttpPost]
-            public IActionResult Update(EditUserViewModel user)
+
+            return View(userViewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(string userId)
+        {
+            var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
+            var roles = await _userManager.GetRolesAsync(user);
+            EditUserViewModel userViewModel = new EditUserViewModel()
             {
-                //var user = _userManager.Users.FirstOrDefault(u => u.Id == newUser);
+                FirstName = user.FirstName,
+                Email = user.Email,
+                LastName = user.LastName,
+                Roles = roles
+            };
+            return View(userViewModel);
+        }
+        [HttpPost]
+        public IActionResult Update(EditUserViewModel user)
+        {
+            //var user = _userManager.Users.FirstOrDefault(u => u.Id == newUser);
 
-                return RedirectToAction("GetAllUsers");
-            }
-
-
-
-
+            return RedirectToAction("GetAllUsers");
         }
     }
+}

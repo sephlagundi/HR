@@ -22,6 +22,8 @@ namespace HRWeb.Data
 
             // seed some basic data 
             // administrator user in the user table
+            modelBuilder.Seed();
+            base.OnModelCreating(modelBuilder);
             modelBuilder.SeedDefaultData();
             base.OnModelCreating(modelBuilder);
         }
