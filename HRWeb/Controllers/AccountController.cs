@@ -1,15 +1,18 @@
-﻿using HRWeb.Models;
+﻿using HRWeb.Data;
+using HRWeb.Models;
 using HRWeb.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRWeb.Controllers
 {
     public class AccountController : Controller
     {
         // Configures REG PAGE
-
+        private readonly ApplicationDbContext _dbContext;
 
         //MANAGE USER ACTIVITIES LIKE CRUD  
         public UserManager<ApplicationUser> _userManager { get; }
@@ -20,24 +23,36 @@ namespace HRWeb.Controllers
 
         public AccountController(UserManager<ApplicationUser> userManager,
                                   SignInManager<ApplicationUser> signInManager,
-                                    RoleManager<IdentityRole> roleManager)
+                                    RoleManager<IdentityRole> roleManager,
+                                    ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _dbContext = dbContext;
         }
+
+
 
 
 
         [HttpGet]
         public IActionResult Register()
         {
-            return View();
+            var model = new RegisterUserViewModel();
+
+            // Get the list of departments from the database and create a SelectList
+            model.DepartmentList = new SelectList(_dbContext.Departments, "Id", "Name");
+            return View(model);
+
+
         }
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterUserViewModel userViewModel)
         {
+            userViewModel.DepartmentList = new SelectList(_dbContext.Departments, "Id", "Name");
+
             if (ModelState.IsValid)
             {
                 var userModel = new ApplicationUser
@@ -46,6 +61,7 @@ namespace HRWeb.Controllers
                     Email = userViewModel.Email,
                     FirstName = userViewModel.FirstName,
                     LastName = userViewModel.LastName,
+                    DepartmentId = userViewModel.DepartmentId,
 
 
                 };

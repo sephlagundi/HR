@@ -31,6 +31,7 @@ namespace HRWeb.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DOB = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DepartmentId = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -243,14 +244,14 @@ namespace HRWeb.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "89d47c6e-961b-458c-af9a-beacb944c270", "d625e77a-2efe-4628-939d-5ad95e670984", "User", "USER" },
-                    { "b37471b6-ef3c-4cf9-890c-6d8d57c94558", "9626941f-fa39-46b3-9e74-1fdc919f3e82", "Administrator", "ADMINISTRATOR" }
+                    { "0e3edc3e-e08a-4d96-a456-e15b02ebdd28", "ae779bfe-f16c-4d38-8262-e622b2c76991", "User", "USER" },
+                    { "18089910-c971-4466-a5ea-35252bcc352e", "2d144e7b-0765-4ec5-bd69-45bcbd5d6c7f", "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DOB", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "858beae6-f28a-48bf-9eb2-fcf575c75c5b", 0, "6648de06-2d9f-4ebb-99ee-eab50d6f4628", null, "admin@admin.com", true, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAENOp3Uabmh4Y2DomOoVBWPErMTH4UTGFNEDfKKu9f2yAxPWCkGZ0kYXn+sIEA8C4/g==", null, false, "940bddc6-f968-4f86-a3c4-48534fbe2016", false, "admin@admin.com" });
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DOB", "DepartmentId", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "34424755-3e6b-43b0-a406-b170d9dbb7fa", 0, "881beb0a-d0b7-4607-82c8-36385b47fa54", null, 0, "admin@admin.com", true, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAECary70KAtNvtS98djuqVlqyCuccy6vYi3rvakHIkZDqJT6DYpXQUIRhqazdVV/DDQ==", null, false, "f0f1399e-e405-41cc-991f-d8797a20a3a1", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "Departments",
@@ -281,7 +282,7 @@ namespace HRWeb.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "b37471b6-ef3c-4cf9-890c-6d8d57c94558", "858beae6-f28a-48bf-9eb2-fcf575c75c5b" });
+                values: new object[] { "18089910-c971-4466-a5ea-35252bcc352e", "34424755-3e6b-43b0-a406-b170d9dbb7fa" });
 
             migrationBuilder.InsertData(
                 table: "Employees",

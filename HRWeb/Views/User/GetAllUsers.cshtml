@@ -19,7 +19,7 @@
             <th scope="col">Last Name</th>
             <th scope="col">Email</th>
             <th scope="col">Roles</th>
-            <th scope="col"></th>
+            <th scope="col">Departments</th>
             <th scope="col"></th>
             <th scope="col"></th>
         </tr>
@@ -33,6 +33,7 @@
                 <td>@user.LastName</td>
                 <td>@user.Email</td>
                 <td>@user.roleName</td>
+                <td>@user.DepartmentName</td>
                 <td></td>
                 <td><a asp-controller="User" asp-action="Details" asp-route-userId="@user.userId">View</a></td>
                 <td><a asp-controller="User" asp-action="Update" asp-route-userId="@user.userId">Edit</a></td>

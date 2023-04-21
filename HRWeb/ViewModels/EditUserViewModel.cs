@@ -13,6 +13,7 @@ namespace HRWeb.ViewModels
         [EmailAddress]
         public string Email { get; set; }
         public IList<string> Roles { get; set; }
+        public IList<string> Departments { get; set; }
 
     }
 }

@@ -17,6 +17,13 @@ namespace HRWeb.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+/*            modelBuilder.Entity<Department>()
+    .HasMany(d => d.RegisterUserViewModels)
+    .WithOne(r => r.Department)
+    .HasForeignKey(r => r.DepartmentId);*/
+
+
             // fluent api customize the tables schema
             //modelBuilder.UserModel();
 

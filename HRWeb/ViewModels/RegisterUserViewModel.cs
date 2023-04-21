@@ -1,8 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using HRWeb.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
 namespace HRWeb.ViewModels
 {
+    [Keyless]
     public class RegisterUserViewModel
     {
         [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Invalid name format. Only alphabets, spaces, hyphens, and apostrophes are allowed.")]
@@ -25,6 +29,8 @@ namespace HRWeb.ViewModels
         [Compare("Password", ErrorMessage = "Password doesn't match")]
         public string ConfirmPassword { get; set; }
 
-       /* public string roleName { get; set; }*/
+
+        public int DepartmentId { get; set; }
+        public SelectList? DepartmentList { get; set; }
     }
 }

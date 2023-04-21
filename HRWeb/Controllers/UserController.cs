@@ -1,8 +1,10 @@
-﻿using HRWeb.Models;
+﻿using HRWeb.Data;
+using HRWeb.Models;
 using HRWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace HRWeb.Controllers
@@ -11,16 +13,19 @@ namespace HRWeb.Controllers
     /*[Authorize(Roles = "Administrator")]*/
     public class UserController : Controller
     {
+        private readonly ApplicationDbContext _dbContext;
         private UserManager<ApplicationUser> _userManager { get; }
         public RoleManager<IdentityRole> _roleManager { get; }
         public SignInManager<ApplicationUser> _signInManager { get; }
         public UserController(UserManager<ApplicationUser> userManager, 
             RoleManager<IdentityRole> roleManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _dbContext = dbContext;
         }
         // [AllowAnonymous]
         public async Task<IActionResult> GetAllUsersAsync()
@@ -33,6 +38,17 @@ namespace HRWeb.Controllers
                 var userlist = await _userManager.GetUsersInRoleAsync(role.Name);
                 foreach (var user in userlist)
                 {
+                    // Get department name from department ID
+                    var departmentName = string.Empty;
+                    if (user.DepartmentId != null)
+                    {
+                        var department = await _dbContext.Departments.FindAsync(user.DepartmentId);
+                        if (department != null)
+                        {
+                            departmentName = department.Name;
+                        }
+                    }
+
                     userViewModel.Add(new UserRoleViewModel
                     {
                         userId = user.Id,
@@ -40,12 +56,15 @@ namespace HRWeb.Controllers
                         LastName = user.LastName,
                         Email = user.Email,
                         roleName = role.Name,
+                        DepartmentId = user.DepartmentId,
+                        DepartmentName = departmentName
                     });
                 }
             }
 
             return View(userViewModel);
         }
+
 
 
 
