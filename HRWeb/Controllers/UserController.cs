@@ -55,6 +55,8 @@ namespace HRWeb.Controllers
                         FirstName = user.FirstName,
                         LastName = user.LastName,
                         Email = user.Email,
+                        DOB = (DateTime)user.DOB,
+                        Phone = user.PhoneNumber,
                         roleName = role.Name,
                         DepartmentId = user.DepartmentId,
                         DepartmentName = departmentName

@@ -35,7 +35,11 @@ namespace HRWeb.Models
                     Email = "admin@admin.com",
                     NormalizedEmail = "ADMIN@ADMIN.COM",
                     EmailConfirmed = true,
-                },
+                    DOB = new DateTime(0001, 01, 01),
+                    PhoneNumber = "000000000",
+
+
+    },
 
 /*                new ApplicationUser {
                     FirstName = "Admin2",

@@ -103,9 +103,10 @@ namespace HRWeb.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "34424755-3e6b-43b0-a406-b170d9dbb7fa",
+                            Id = "3989339c-83db-4f5a-bcbc-e5fd0c0132dc",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "881beb0a-d0b7-4607-82c8-36385b47fa54",
+                            ConcurrencyStamp = "bdb656a5-5523-4b8d-8eb2-04f64acf0195",
+                            DOB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = 0,
                             Email = "admin@admin.com",
                             EmailConfirmed = true,
@@ -114,9 +115,10 @@ namespace HRWeb.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAECary70KAtNvtS98djuqVlqyCuccy6vYi3rvakHIkZDqJT6DYpXQUIRhqazdVV/DDQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOpAcODxrnIU02G7sXcTKq+YJdM+B8zzkivlZxnBrCmQ1mOjpPYrdVQaHWk4MU1W6A==",
+                            PhoneNumber = "000000000",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f0f1399e-e405-41cc-991f-d8797a20a3a1",
+                            SecurityStamp = "e9d1f0ad-85b8-40bd-83d2-f0f0735c1008",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -378,15 +380,15 @@ namespace HRWeb.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "18089910-c971-4466-a5ea-35252bcc352e",
-                            ConcurrencyStamp = "2d144e7b-0765-4ec5-bd69-45bcbd5d6c7f",
+                            Id = "7fd976fb-052c-401c-8b68-a9d80c170e8d",
+                            ConcurrencyStamp = "e1ec5723-7bbc-4b54-8e81-3b0d089a18d2",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "0e3edc3e-e08a-4d96-a456-e15b02ebdd28",
-                            ConcurrencyStamp = "ae779bfe-f16c-4d38-8262-e622b2c76991",
+                            Id = "fbb54af6-f0a3-4b37-b954-0ac5564b2994",
+                            ConcurrencyStamp = "b5c84556-944a-4f96-9949-e7a98e2864b2",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -481,8 +483,8 @@ namespace HRWeb.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "34424755-3e6b-43b0-a406-b170d9dbb7fa",
-                            RoleId = "18089910-c971-4466-a5ea-35252bcc352e"
+                            UserId = "3989339c-83db-4f5a-bcbc-e5fd0c0132dc",
+                            RoleId = "7fd976fb-052c-401c-8b68-a9d80c170e8d"
                         });
                 });
 
@@ -508,7 +510,7 @@ namespace HRWeb.Migrations
             modelBuilder.Entity("HRWeb.Models.Employee", b =>
                 {
                     b.HasOne("HRWeb.Models.Department", "Department")
-                        .WithMany("Employees")
+                        .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -584,11 +586,6 @@ namespace HRWeb.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("HRWeb.Models.Department", b =>
-                {
-                    b.Navigation("Employees");
                 });
 
             modelBuilder.Entity("HRWeb.Models.Employee", b =>

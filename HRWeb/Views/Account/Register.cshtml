@@ -25,6 +25,14 @@
             <input type="text" class="form-control" asp-for="Email" placeholder="John@yahoo.com" style="width: 300px;">
         </div>
         <div class="form-group">
+            <label asp-for="DOB"></label>
+            <input type="date" class="form-control" asp-for="DOB" value="@DateTime.Today.ToString("yyyy-MM-dd")" style="width: 300px;">
+        </div>
+        <div class="form-group">
+            <label asp-for="Phone"></label>
+            <input type="text" class="form-control" asp-for="Phone" placeholder="0969000000" style="width: 300px;">
+        </div>
+        <div class="form-group">
             <label asp-for="Password"></label>
             <input class="form-control" asp-for="Password" placeholder="********" style="width: 300px;">
         </div>

@@ -10,10 +10,10 @@ namespace HRWeb.Models
         [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Invalid department format. Only alphabets, spaces, hyphens, and apostrophes are allowed.")]
         [Display(Name = "Department Name")]
         public string Name { get; set; }
-        public List<Employee>? Employees { get; set; }
+        /*public List<Employee>? Employees { get; set; }*/
 
         [NotMapped]
-        public List<RegisterUserViewModel> RegisterUserViewModels { get; set; }
+        public List<RegisterUserViewModel>? RegisterUserViewModels { get; set; }
 
 
         public Department()
