@@ -10,9 +10,11 @@ namespace HRWeb.ViewModels
     [Keyless]
     public class RegisterUserViewModel
     {
+        [DisplayName("First Name")]
         [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Invalid name format. Only alphabets, spaces, hyphens, and apostrophes are allowed.")]
         public string FirstName { get; set; }
 
+        [DisplayName("Last Name")]
         [RegularExpression(@"^[a-zA-Z''-'\s]{1,40}$", ErrorMessage = "Invalid name format. Only alphabets, spaces, hyphens, and apostrophes are allowed.")]
         public string LastName { get; set; }
 
