@@ -244,14 +244,14 @@ namespace HRWeb.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "7fd976fb-052c-401c-8b68-a9d80c170e8d", "e1ec5723-7bbc-4b54-8e81-3b0d089a18d2", "Administrator", "ADMINISTRATOR" },
-                    { "fbb54af6-f0a3-4b37-b954-0ac5564b2994", "b5c84556-944a-4f96-9949-e7a98e2864b2", "User", "USER" }
+                    { "3c22cb83-8575-4a25-a5c9-31bd1bba97ff", "52a45d52-7674-45d4-b752-78350109bbad", "Administrator", "ADMINISTRATOR" },
+                    { "b36c072c-58f9-43ca-a263-4703f83d086d", "ffa4a697-ffec-46e1-970a-bfc96e804101", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DOB", "DepartmentId", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "3989339c-83db-4f5a-bcbc-e5fd0c0132dc", 0, "bdb656a5-5523-4b8d-8eb2-04f64acf0195", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "admin@admin.com", true, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEOpAcODxrnIU02G7sXcTKq+YJdM+B8zzkivlZxnBrCmQ1mOjpPYrdVQaHWk4MU1W6A==", "000000000", false, "e9d1f0ad-85b8-40bd-83d2-f0f0735c1008", false, "admin@admin.com" });
+                values: new object[] { "0d02be59-8768-43f0-8322-e5fb95795ca9", 0, "3f99c4cc-45e1-4e95-9968-82cf1044742a", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "admin@admin.com", true, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEEo/Nxyv8jTz92+RICjelk68UkLWtz8rNkmuqxvAkUkApPAUydZK6kTkWu6SZG2otg==", "000000000", false, "67b3343e-e94f-41d2-a78c-aefc07889aba", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "Departments",
@@ -282,7 +282,7 @@ namespace HRWeb.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "7fd976fb-052c-401c-8b68-a9d80c170e8d", "3989339c-83db-4f5a-bcbc-e5fd0c0132dc" });
+                values: new object[] { "3c22cb83-8575-4a25-a5c9-31bd1bba97ff", "0d02be59-8768-43f0-8322-e5fb95795ca9" });
 
             migrationBuilder.InsertData(
                 table: "Employees",

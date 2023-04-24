@@ -3,8 +3,20 @@
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@{
+
+@*@{
+    var roles = new List<SelectListItem>();
+
+    foreach (var role in Model.Roles)
+    {
+        roles.Add(new SelectListItem { Text = role, Value = role });
+    }
 }
+*@
+
+
+
+
 
 <h1>Register User</h1>
 
@@ -27,7 +39,61 @@
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
+    <div class="form-group">
+        <label asp-for="DepartmentId" class="control-label"></label>
+        <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
+        <span asp-validation-for="DepartmentId" class="text-danger"></span>
+    </div>
 
-    <button class="btn btn-info" button type="submit">Register</button>
+
+
+
+    <ul class="list-group list-group-flush">
+        @if (Model.Roles.Any())
+        {
+            foreach (var role in Model.Roles)
+            {
+                // manage roles for user
+                <li class="list-group-item">@role</li>
+            }
+        }
+        else
+        {
+            <h6>No roles</h6>
+        }
+    </ul>
+
+
+
+
+
+
+
+
+
+
+
+@*    <div class="form-group">
+        <label asp-for="Roles" class="control-label"></label>
+        <select asp-for="Roles" asp-items="@roles" class="form-control"></select>
+        <span asp-validation-for="Roles" class="text-danger"></span>
+    </div>
+
+    <div class="form-group" style="width: 300px; height: 100px;">
+        <label asp-for="Roles" class="control-label"></label>
+        <select asp-for="Roles" asp-items="@Model.RoleList" class="form-control"></select>
+    </div>
+
+
+    <div class="form-group" style="width: 300px; height: 100px;">
+        <label asp-for="DepartmentId" class="control-label"></label>
+        <select asp-for="DepartmentId" asp-items="@Model.DepartmentList" class="form-control"></select>
+    </div>*@
+
+
+
+    <div class="form-group">
+        <input type="submit" value="Save" class="btn btn-primary" />
+    </div>
 
 </form>

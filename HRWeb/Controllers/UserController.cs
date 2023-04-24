@@ -4,6 +4,7 @@ using HRWeb.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
@@ -86,11 +87,20 @@ namespace HRWeb.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            var model = new RegisterUserViewModel();
+
+            // Get the list of departments from the database and create a SelectList
+            model.DepartmentList = new SelectList(_dbContext.Departments, "Id", "Name");
+            return View(model);
+
+
         }
+
         [HttpPost]
-        public async Task<IActionResult> Create(RegisterUserViewModel userViewModel) // model binded this where the views data is accepted 
+        public async Task<IActionResult> Create(RegisterUserViewModel userViewModel)
         {
+            userViewModel.DepartmentList = new SelectList(_dbContext.Departments, "Id", "Name");
+
             if (ModelState.IsValid)
             {
                 var userModel = new ApplicationUser
@@ -98,7 +108,12 @@ namespace HRWeb.Controllers
                     UserName = userViewModel.Email,
                     Email = userViewModel.Email,
                     FirstName = userViewModel.FirstName,
-                    LastName = userViewModel.LastName
+                    LastName = userViewModel.LastName,
+                    DepartmentId = userViewModel.DepartmentId,
+                    DOB = userViewModel.DOB,
+                    PhoneNumber = userViewModel.Phone,
+
+
                 };
                 var result = await _userManager.CreateAsync(userModel, userViewModel.Password);
                 if (result.Succeeded)
@@ -133,26 +148,262 @@ namespace HRWeb.Controllers
             return View(userViewModel);
         }
 
+        /*        [HttpGet]
+                public async Task<IActionResult> Update(string userId)
+                {
+                    var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
+                    var roles = await _userManager.GetRolesAsync(user);
+                    EditUserViewModel userViewModel = new EditUserViewModel()
+                    {
+                        FirstName = user.FirstName,
+                        Email = user.Email,
+                        LastName = user.LastName,
+                        Roles = roles
+                    };
+                    return View(userViewModel);
+                }
+                [HttpPost]
+                public IActionResult Update(EditUserViewModel user)
+                {
+                    //var user = _userManager.Users.FirstOrDefault(u => u.Id == newUser);
+
+                    return RedirectToAction("GetAllUsers");
+                }*/
+
+
+        // Get the list of departments from the database and create a SelectList
+
+
+
+        /*        [HttpGet]
+                public async Task<IActionResult> Update(string userId)
+                {
+                    var user = await _userManager.FindByIdAsync(userId);
+                    if (user == null)
+                    {
+                        return NotFound(); // or some other error handling
+                    }
+                    var roles = await _userManager.GetRolesAsync(user);
+                    var allRoles = _roleManager.Roles.Select(r => new SelectListItem { Text = r.Name, Value = r.Name }).ToList();
+                    var departments = await _dbContext.Departments.ToListAsync(); // Get the list of departments
+                    var userViewModel = new EditUserViewModel()
+                    {
+                        Id = user.Id,
+                        FirstName = user.FirstName,
+                        Email = user.Email,
+                        LastName = user.LastName,
+                        Roles = (IList<string>)allRoles,
+                        Phone = user.PhoneNumber,
+                        DOB = (DateTime)user.DOB,
+                        SelectedRole = roles.First(),
+                        DepartmentId = user.DepartmentId,
+                        DepartmentList = new SelectList(departments, "Id", "Name"), // Create the SelectLis
+                        AllRoles = _roleManager.Roles.Select(r => new SelectListItem
+                        {
+                            Text = r.Name,
+                            Value = r.Name
+                        })
+
+                    };
+                    userViewModel.Roles = roles;
+                    userViewModel.AllRoles = allRoles;
+                    userViewModel.DepartmentList = new SelectList(departments, "Id", "Name", user.DepartmentId);
+                    return View(userViewModel);
+                }*/
+
+
+
+        /*        [HttpGet]
+                public async Task<IActionResult> Update(string userId)
+                {
+                    var user = await _userManager.FindByIdAsync(userId);
+                    var role = await _userManager.GetRolesAsync(user);
+                    var allRoles = _roleManager.Roles.Select(r => r.Name).ToList();
+                    var roles = await _dbContext.Roles.ToListAsync();
+                    var departments = await _dbContext.Departments.ToListAsync(); // Get the list of departments
+                    var userViewModel = new EditUserViewModel()
+
+
+                    {
+                        Id = user.Id,
+                        FirstName = user.FirstName,
+                        Email = user.Email,
+                        LastName = user.LastName,
+                        Roles = role,
+                        Phone = user.PhoneNumber,
+                        DOB = (DateTime)user.DOB,
+                        RoleList = new SelectList(roles, "Id", "Name"),
+                        DepartmentId = user.DepartmentId,
+                        DepartmentList = new SelectList(departments, "Id", "Name") // Create the SelectLis
+
+                    };
+                    return View(userViewModel);
+                }*/
+
+
+        /*        [HttpPost]
+                public async Task<IActionResult> Update(string userId, List<string> userRoles)
+                {
+                    // Get the user by Id
+                    var user = await _userManager.FindByIdAsync(userId);
+                    if (user == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Get the list of roles assigned to the user
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    // Remove the user from all the current roles
+                    var result = await _userManager.RemoveFromRolesAsync(user, roles);
+                    if (!result.Succeeded)
+                    {
+                        ModelState.AddModelError(string.Empty, "Failed to remove roles");
+                        return View(user);
+                    }
+
+                    // Add the user to the selected roles
+                    result = await _userManager.AddToRolesAsync(user, userRoles);
+                    if (!result.Succeeded)
+                    {
+                        ModelState.AddModelError(string.Empty, "Failed to add roles");
+                        return View(user);
+                    }
+
+                    return RedirectToAction("GetAllUsers");
+                }*/
+
+
+
+
+        /*        [HttpPost]
+                public async Task<IActionResult> Update(EditUserViewModel userViewModel)
+                {
+                    if (ModelState.IsValid)
+                    {
+                        var user = await _userManager.FindByIdAsync(userViewModel.Id);
+
+                        if (user == null)
+                        {
+                            return NotFound();
+                        }
+
+                        user.FirstName = userViewModel.FirstName;
+                        user.LastName = userViewModel.LastName;
+                        user.Email = userViewModel.Email;
+                        user.DOB = userViewModel.DOB;
+                        user.PhoneNumber = userViewModel.Phone;
+                        user.DepartmentId = userViewModel.DepartmentId;
+                        user.Role = userViewModel.Role;
+
+                        // Update the user in the database
+                        var result = await _userManager.UpdateAsync(user);
+
+                        if (result.Succeeded)
+                        {
+                            // Remove the user from all roles and then add them back to the selected role
+                            var roles = await _userManager.GetRolesAsync(user);
+
+                            if (roles.Any())
+                            {
+                                var removeResult = await _userManager.RemoveFromRolesAsync(user, roles);
+
+                                if (!removeResult.Succeeded)
+                                {
+                                    ModelState.AddModelError(string.Empty, "Error removing user from roles.");
+                                    return View(userViewModel);
+                                }
+                            }
+
+                            var role = await _roleManager.FindByNameAsync(userViewModel.Role);
+
+                            if (role == null)
+                            {
+                                ModelState.AddModelError(string.Empty, "Invalid role selected.");
+                                return View(userViewModel);
+                            }
+
+                            var addResult = await _userManager.AddToRoleAsync(user, role.Name);
+
+                            if (!addResult.Succeeded)
+                            {
+                                ModelState.AddModelError(string.Empty, "Error adding user to role.");
+                                return View(userViewModel);
+                            }
+
+                            return RedirectToAction("GetAllUsers");
+                        }
+
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                    }
+
+                    return View(userViewModel);
+                }*/
+
+
+
+
         [HttpGet]
         public async Task<IActionResult> Update(string userId)
         {
+            /*var user = await _userManager.FindByIdAsync(userId);*/
             var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
             var roles = await _userManager.GetRolesAsync(user);
             EditUserViewModel userViewModel = new EditUserViewModel()
             {
+                /*Id = user.Id,*/
                 FirstName = user.FirstName,
                 Email = user.Email,
                 LastName = user.LastName,
-                Roles = roles
-            };
-            return View(userViewModel);
-        }
-        [HttpPost]
-        public IActionResult Update(EditUserViewModel user)
-        {
-            //var user = _userManager.Users.FirstOrDefault(u => u.Id == newUser);
+                DepartmentId = user.DepartmentId,
+                Roles = roles,
 
-            return RedirectToAction("GetAllUsers");
+            };
+
+            ViewData["DepartmentId"] = new SelectList(_dbContext.Departments, "Id", "Name", userViewModel.DepartmentId);
+
+            return View(userViewModel);
+
         }
+
+
+
+                [HttpPost]
+                public async Task<IActionResult> Update(string userId, List<string> userRoles)
+                {
+                    // Get the user by Id
+                    var user = await _userManager.FindByIdAsync(userId);
+                    if (user == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Get the list of roles assigned to the user
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    // Remove the user from all the current roles
+                    var result = await _userManager.RemoveFromRolesAsync(user, roles);
+                    if (!result.Succeeded)
+                    {
+                        ModelState.AddModelError(string.Empty, "Failed to remove roles");
+                        return View(user);
+                    }
+
+                    // Add the user to the selected roles
+                    result = await _userManager.AddToRolesAsync(user, userRoles);
+                    if (!result.Succeeded)
+                    {
+                        ModelState.AddModelError(string.Empty, "Failed to add roles");
+                        return View(user);
+                    }
+
+                    return RedirectToAction("GetAllUsers");
+                }
+
+
+
     }
 }

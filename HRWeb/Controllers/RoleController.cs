@@ -60,6 +60,7 @@ namespace HRWeb.Controllers
         [HttpGet]
         public IActionResult GetAllRoles()
         {
+
             return View(_roleManager.Roles.ToList());
         }
 

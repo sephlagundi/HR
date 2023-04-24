@@ -16,6 +16,8 @@ namespace HRWeb.Models
         public DateTime? DOB { get; set; }
         public int DepartmentId { get; set; }
 
+        /*public string Role { get; set; }*/
+
 
 
     }

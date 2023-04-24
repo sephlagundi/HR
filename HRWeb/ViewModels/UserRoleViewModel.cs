@@ -10,11 +10,12 @@ namespace HRWeb.ViewModels
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        [Display(Name = "Department")]
         public int DepartmentId { get; set; }
         public string Phone { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        [DisplayName("Date of Birth")]
+        [Display(Name ="Date of Birth")]
         public DateTime DOB { get; set; }
 
 
