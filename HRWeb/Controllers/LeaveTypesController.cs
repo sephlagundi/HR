@@ -62,6 +62,7 @@ namespace HRWeb.Controllers
             {
                 _context.Add(leaveType);
                 await _context.SaveChangesAsync();
+                TempData["AlertMessage"] = "Leave type added successfuly";
                 return RedirectToAction(nameof(Index));
             }
             return View(leaveType);
@@ -101,6 +102,7 @@ namespace HRWeb.Controllers
                 {
                     _context.Update(leaveType);
                     await _context.SaveChangesAsync();
+                    TempData["AlertMessage"] = "Leave type edited successfuly";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -149,6 +151,7 @@ namespace HRWeb.Controllers
             if (leaveType != null)
             {
                 _context.LeaveType.Remove(leaveType);
+                TempData["AlertMessage"] = "Leave type deleted successfuly";
             }
             
             await _context.SaveChangesAsync();

@@ -81,6 +81,7 @@ namespace HRWeb.Controllers
         {
             var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
             var userlist = await _userManager.DeleteAsync(user);
+            TempData["AlertMessage"] = "Employee deleted successfuly";
             return RedirectToAction(controllerName: "User", actionName: "GetAllUsers"); // reload the getall page it self
         }
 
@@ -120,6 +121,7 @@ namespace HRWeb.Controllers
                 {
                     //ADD ROLES AND ALLOW THEM TO LOGIN
                     // ASSIGN DEFAULT ROLE 
+                    TempData["AlertMessage"] = "Employee added successfuly";
                     var role = _roleManager.Roles.FirstOrDefault(r => r.Name == "User");
                     if (role != null)
                     {
@@ -134,8 +136,8 @@ namespace HRWeb.Controllers
 
 
                     //LOG IN THE USER AUTOMATICALLY
-                    await _signInManager.SignInAsync(userModel, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    /*await _signInManager.SignInAsync(userModel, isPersistent: false);*/
+                    return RedirectToAction("GetAllUsers", "User");
                 }
 
                 foreach (var error in result.Errors)
