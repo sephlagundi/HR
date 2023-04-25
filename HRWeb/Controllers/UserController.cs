@@ -18,7 +18,7 @@ namespace HRWeb.Controllers
         private UserManager<ApplicationUser> _userManager { get; }
         public RoleManager<IdentityRole> _roleManager { get; }
         public SignInManager<ApplicationUser> _signInManager { get; }
-        public UserController(UserManager<ApplicationUser> userManager, 
+        public UserController(UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             SignInManager<ApplicationUser> signInManager,
             ApplicationDbContext dbContext)
@@ -111,6 +111,7 @@ namespace HRWeb.Controllers
         {
             var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
             var userlist = await _userManager.DeleteAsync(user);
+            TempData["AlertMessage"] = "Employee deleted successfuly";
             return RedirectToAction(controllerName: "User", actionName: "GetAllUsers"); // reload the getall page it self
         }
 
@@ -150,6 +151,7 @@ namespace HRWeb.Controllers
                 {
                     //ADD ROLES AND ALLOW THEM TO LOGIN
                     // ASSIGN DEFAULT ROLE 
+                    TempData["AlertMessage"] = "Employee added successfuly";
                     var role = _roleManager.Roles.FirstOrDefault(r => r.Name == "User");
                     if (role != null)
                     {
@@ -164,8 +166,8 @@ namespace HRWeb.Controllers
 
 
                     //LOG IN THE USER AUTOMATICALLY
-                    await _signInManager.SignInAsync(userModel, isPersistent: false);
-                    return RedirectToAction("Index", "Home");
+                    /*await _signInManager.SignInAsync(userModel, isPersistent: false);*/
+                    return RedirectToAction("GetAllUsers", "User");
                 }
 
                 foreach (var error in result.Errors)
@@ -217,29 +219,11 @@ namespace HRWeb.Controllers
                         return NotFound();
                     }
 
-                    // Get the list of roles assigned to the user
-                    var roles = await _userManager.GetRolesAsync(user);
+            ViewData["DepartmentId"] = new SelectList(_dbContext.Departments, "Id", "Name", user.DepartmentId);
+            ViewData["Roles"] = new SelectList(_roleManager.Roles, "Id", "Name", user.Roles);
 
-                    // Remove the user from all the current roles
-                    var result = await _userManager.RemoveFromRolesAsync(user, roles);
-                    if (!result.Succeeded)
-                    {
-                        ModelState.AddModelError(string.Empty, "Failed to remove roles");
-                        return View(user);
-                    }
-
-                    // Add the user to the selected roles
-                    result = await _userManager.AddToRolesAsync(user, userRoles);
-                    if (!result.Succeeded)
-                    {
-                        ModelState.AddModelError(string.Empty, "Failed to add roles");
-                        return View(user);
-                    }
-
-                    return RedirectToAction("GetAllUsers");
-                }
-
-
-
+            return View(user);
+        }
     }
 }
+

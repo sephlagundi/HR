@@ -11,7 +11,12 @@
 
 <a class="btn btn-info" asp-action="Create" asp-controller="Role">Add New Role</a>
 
-
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Success!</strong> @TempData["AlertMessage"]
+    </div>
+}
 
 <table class="table"
     <thead class="thead-dark">

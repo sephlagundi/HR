@@ -17,6 +17,13 @@
 
 <a asp-action="Create" asp-controller="User">Add Employee</a>
 
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Success!</strong> @TempData["AlertMessage"]
+    </div>
+}
+
 <table class="table">
     <thead class="thead-dark">
         <tr>
@@ -34,7 +41,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var user in Model)
+        @foreach (var user in Model.Where(u => u.roleName != "Administrator"))
         {
             <tr>
                 @*<th scope="row">@user.userId</th>*@

@@ -74,8 +74,10 @@ namespace HRWeb.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 _context.Add(department);
                 await _context.SaveChangesAsync();
+                TempData["AlertMessage"] = "Department added successfuly";
                 return RedirectToAction(nameof(Index));
             }
             return View(department);
@@ -115,6 +117,7 @@ namespace HRWeb.Controllers
                 {
                     _context.Update(department);
                     await _context.SaveChangesAsync();
+                    TempData["AlertMessage"] = "Department edited successfuly";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -163,6 +166,7 @@ namespace HRWeb.Controllers
             if (department != null)
             {
                 _context.Departments.Remove(department);
+                TempData["AlertMessage"] = "Department deleted successfuly";
             }
 
             await _context.SaveChangesAsync();

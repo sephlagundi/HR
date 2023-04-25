@@ -15,6 +15,13 @@
 </p>
 }
 
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Success!</strong> @TempData["AlertMessage"]
+    </div>
+}
+
 
 <form asp-controller="Department" asp-action="Index" method="get">
     <p>

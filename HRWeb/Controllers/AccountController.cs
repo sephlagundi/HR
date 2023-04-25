@@ -70,6 +70,7 @@ namespace HRWeb.Controllers
                 var result = await _userManager.CreateAsync(userModel, userViewModel.Password);
                 if (result.Succeeded)
                 {
+                    /*TempData["AlertMessage"] = "Registration successful";*/
                     //ADD ROLES AND ALLOW THEM TO LOGIN
                     // ASSIGN DEFAULT ROLE 
                     var role = _roleManager.Roles.FirstOrDefault(r => r.Name == "User");
