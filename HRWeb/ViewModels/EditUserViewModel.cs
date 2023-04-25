@@ -7,7 +7,7 @@ namespace HRWeb.ViewModels
     public class EditUserViewModel
     {
         // view validations
-/*        public string? Id { get; set; }*/
+        public string Id { get; set; }
         [Required]
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -24,8 +24,8 @@ namespace HRWeb.ViewModels
         [RegularExpression("^[0-9]*$", ErrorMessage = "Invalid Number")]
         public string Phone { get; set; }
 
-        public string Role { get; set; }
-        public IList<string> Roles { get; set; }
+        /*public string? Role { get; set; }*/
+        public IList<string>? Roles { get; set; }
         public IList<string>? Departments { get; set; }
 
         /*public string? SelectedRole { get; set; }*/
