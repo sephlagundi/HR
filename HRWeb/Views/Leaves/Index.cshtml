@@ -21,9 +21,15 @@
 
 <h1>Leave Request</h1>
 
+
+                @if (_signInManager.IsSignedIn(User) && User.IsInRole("User"))
+                {
+
+
 <p>
     <a class="btn btn-info" asp-action="Create">New Leave Request</a>
 </p>
+                }
 
 <table class="table">
     <thead>
