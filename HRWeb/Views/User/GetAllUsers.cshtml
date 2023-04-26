@@ -15,7 +15,9 @@
     <h1 class="display-4">Employees</h1>
 </div>
 
-<a asp-action="Create" asp-controller="User">Add Employee</a>
+<p>
+    <a class="btn btn-info" asp-action="Create">Add New Employee</a>
+</p>
 
 @if (TempData["AlertMessage"] != null)
 {
@@ -54,9 +56,16 @@
                 <td>@user.roleName</td>
                 <td>@user.DepartmentName</td>
                 <td></td>
+
+
+                <td>
+                    <a class="btn btn-info" asp-controller="User" asp-action="Update" asp-route-userId="@user.userId">Edit</a> |
+                    <a class="btn btn-info" asp-controller="User" asp-action="Delete" asp-route-userId="@user.userId">Delete</a>
+                </td>
+@*
                 <td><a asp-controller="User" asp-action="Details" asp-route-userId="@user.userId">View</a></td>
                 <td><a asp-controller="User" asp-action="Update" asp-route-userId="@user.userId">Edit</a></td>
-                <td><a asp-controller="User" asp-action="Delete" asp-route-userId="@user.userId">Delete</a></td>
+                <td><a asp-controller="User" asp-action="Delete" asp-route-userId="@user.userId">Delete</a></td>*@
             </tr>
         }
     </tbody>
