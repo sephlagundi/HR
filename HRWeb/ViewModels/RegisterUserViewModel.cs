@@ -29,6 +29,8 @@ namespace HRWeb.ViewModels
         public DateTime DOB { get; set; }
 
         [RegularExpression("^[0-9]*$", ErrorMessage = "Invalid Number")]
+        [MaxLength(11)]
+        [DisplayName("Phone Number")]
         public string Phone { get; set; }
 
         [Required]
@@ -41,7 +43,7 @@ namespace HRWeb.ViewModels
         [Compare("Password", ErrorMessage = "Password doesn't match")]
         public string ConfirmPassword { get; set; }
 
-
+        [Display(Name = "Department")]
         public int DepartmentId { get; set; }
         public SelectList? DepartmentList { get; set; }
     }

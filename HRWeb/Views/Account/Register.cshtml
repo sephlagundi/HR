@@ -30,7 +30,7 @@
         </div>
         <div class="form-group">
             <label asp-for="Phone"></label>
-            <input type="text" class="form-control" asp-for="Phone" placeholder="0969000000" style="width: 300px;">
+            <input type="tel" class="form-control" asp-for="Phone" placeholder="0969000000" style="width: 300px;">
         </div>
         <div class="form-group">
             <label asp-for="Password"></label>
@@ -40,42 +40,10 @@
             <label asp-for="ConfirmPassword"></label>
             <input class="form-control" asp-for="ConfirmPassword" placeholder="********" style="width: 300px;">
         </div>
-        <div class="form-group" style="width: 300px; height: 100px;">
+        <div class="form-group" style="width: 300px; height: 75px;">
             <label asp-for="DepartmentId" class="control-label"></label>
             <select asp-for="DepartmentId" asp-items="@Model.DepartmentList" class="form-control"></select>
         </div>
-
-
-
-
-@*
-        <div class="form-group">
-            <label asp-for="DepartmentId" class="control-label"></label>
-            <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
-        </div>*@
-
-
-@*        <div class="form-group">
-            <label asp-for="Department" class="control-label"></label>
-            <select asp-for="DepartmentId" class="form-control"></select>
-        </div>*@
-@*<div class="form-group">
-    <label asp-for="DepartmentId"></label>
-    <select asp-for="DepartmentId" asp-items="@(new SelectList(Model.Departments, "Id", "Name"))" class="form-control" style="width: 300px;">
-        <option value="">Select department</option>
-    </select>
-</div>*@
-
-@*        <div class="form-group">
-            <label asp-for="roleName"></label>
-            <input class="form-control" asp-for="roleName" placeholder="********" style="width: 300px;">
-        </div>*@
-
-@*        <label for="role">Role:</label>
-        <select asp-for="roleName">
-            <option value="User">User</option>
-            <option value="Administrator">Administrator</option>
-        </select>*@
 
         <button type="submit" class="btn btn-primary">Register</button>
 
