@@ -25,7 +25,7 @@ namespace HRWeb.ViewModels
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [DisplayName("Date of Birth")]
-        /*[Range(typeof(DateTime), "1900,01,01", "{0:dd/MM/yyyy}", ErrorMessage = "Date of Birth cannot be in the future")]*/
+        [MinimumAge(18, ErrorMessage = "You must be at least 18 years old.")]
         public DateTime DOB { get; set; }
 
         [RegularExpression("^[0-9]*$", ErrorMessage = "Invalid Number")]
@@ -44,5 +44,28 @@ namespace HRWeb.ViewModels
 
         public int DepartmentId { get; set; }
         public SelectList? DepartmentList { get; set; }
+    }
+    public class MinimumAgeAttribute : ValidationAttribute
+    {
+        private readonly int _minimumAge;
+
+        public MinimumAgeAttribute(int minimumAge)
+        {
+            _minimumAge = minimumAge;
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            if (value is DateTime dateOfBirth)
+            {
+                var age = DateTime.Today.Year - dateOfBirth.Year;
+                if (dateOfBirth > DateTime.Today.AddYears(-age))
+                    age--;
+                if (age < _minimumAge)
+                    return new ValidationResult($"You must be at least {_minimumAge} years old.");
+            }
+
+            return ValidationResult.Success;
+        }
     }
 }
