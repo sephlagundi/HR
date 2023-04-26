@@ -308,5 +308,50 @@ namespace HRWeb.Controllers
         {
           return (_context.Leaves?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+
+
+
+        // POST: Leaves/Approve/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Approve(int id)
+        {
+            var leave = await _context.Leaves.FindAsync(id);
+            if (leave == null)
+            {
+                return NotFound();
+            }
+
+            leave.Status = "Approved";
+            _context.Update(leave);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Leaves/Decline/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator")]
+        public async Task<IActionResult> Decline(int id)
+        {
+            var leave = await _context.Leaves.FindAsync(id);
+            if (leave == null)
+            {
+                return NotFound();
+            }
+
+            leave.Status = "Declined";
+            _context.Update(leave);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+
     }
 }
