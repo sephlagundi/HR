@@ -11,6 +11,9 @@
 
 
 
+
+
+
 <div class="text-center">
     <h1 class="display-4">Employees</h1>
 </div>
@@ -25,6 +28,16 @@
         <strong>Success!</strong> @TempData["AlertMessage"]
     </div>
 }
+
+
+<form method="get" action="@Url.Action("GetAllUsers")">
+    <div class="form-group" style="width: 250px;">
+        <input type="text" name="searchTerm" id="searchTerm" class="form-control" placeholder="Enter search...">
+        @*<input type="submit" value="Search"/>*@
+    </div>
+    
+</form>
+
 
 <table class="table">
     <thead class="thead-dark">
