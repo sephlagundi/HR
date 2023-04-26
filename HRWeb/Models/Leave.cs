@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HRWeb.ViewModels;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,12 +20,28 @@ namespace HRWeb.Models
         public string Reason { get; set; }
         public string Status { get; set; } = "pending";
 
-        public int EmployeeId { get; set; }
-        public Employee? Employee { get; set; }
+       
+        public string? OwnerId { get; set; }
+
+
+
+
+
+
+
 
         public int LeaveTypeId { get; set; }
         [Display(Name = "Type of Leave")]
         public LeaveType? LeaveType { get; set; }
+
+
+
+
+
+        
+
+
+
 
         [Display(Name = "Date Created")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -35,15 +52,15 @@ namespace HRWeb.Models
             Status = "pending";
         }
 
-        public Leave(int id, DateTime leaveStartDate, DateTime leaveEndDate, string reason, string status, int employeeid, int leavetypeid)
+        public Leave(int id, DateTime leaveStartDate, DateTime leaveEndDate, string reason, string status, int employeeid, int leavetypeid, string ownerId)
         {
             Id = id;
             LeaveStartDate = leaveStartDate;
             LeaveEndDate = leaveEndDate;
             Reason = reason;
             Status = status;
-            EmployeeId = employeeid;
             LeaveTypeId = leavetypeid;
+            OwnerId = ownerId;
         }
     }
 

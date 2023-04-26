@@ -218,9 +218,10 @@ namespace HRWeb.Migrations
                     LeaveEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Reason = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false),
+                    OwnerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LeaveTypeId = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -229,8 +230,7 @@ namespace HRWeb.Migrations
                         name: "FK_Leaves_Employees_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: "Employees",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Leaves_LeaveType_LeaveTypeId",
                         column: x => x.LeaveTypeId,
@@ -244,14 +244,14 @@ namespace HRWeb.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "0739e3ff-02f0-458c-81b9-0905c550e488", "9ec6078e-c63c-427c-9327-31ef5b74e4ea", "User", "USER" },
-                    { "b120a3f2-de7f-46dd-b17a-9a0804ca0517", "042631cc-2a2f-4b8c-b0aa-3eabcde1751b", "Administrator", "ADMINISTRATOR" }
+                    { "36067cc1-f6bb-441b-938c-cb89b211f23f", "38360a7a-4691-4553-91ca-f05efa22649e", "User", "USER" },
+                    { "46fc6305-ea73-48f9-a827-c21329979bfb", "4d94dffe-f60e-4b28-b924-6164c5f0f54c", "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DOB", "DepartmentId", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "e53161e1-d213-409e-bd41-ed20796f3ff3", 0, "263dc627-c8d4-4abe-a1ce-f2d95e16366c", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "admin@admin.com", true, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAELwwXbowVNlkB4xFsNvuWEfrvq/m9Xivj00radF2bYpboySnakgLdPV6v5KaAA4dkw==", "000000000", false, "03eef2c5-ce5d-4ec0-8928-e6dab69e1452", false, "admin@admin.com" });
+                values: new object[] { "4baa85a7-6941-47fb-8c4c-a21e1d5b684a", 0, "e7ccfe10-51ce-4b54-aaa3-08f9a0a450bc", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "admin@admin.com", true, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEHKA6ii9p9fQhn9pkUIdMOL9aXs7c/bXsotisHBfPq+GF7U+qEU0LmoO74A1uI8S9w==", "000000000", false, "5e51f324-3dd5-47ac-a19a-06d4af65b50d", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "Departments",
@@ -282,7 +282,7 @@ namespace HRWeb.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "b120a3f2-de7f-46dd-b17a-9a0804ca0517", "e53161e1-d213-409e-bd41-ed20796f3ff3" });
+                values: new object[] { "46fc6305-ea73-48f9-a827-c21329979bfb", "4baa85a7-6941-47fb-8c4c-a21e1d5b684a" });
 
             migrationBuilder.InsertData(
                 table: "Employees",

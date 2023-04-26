@@ -7,29 +7,90 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HRWeb.Data;
 using HRWeb.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HRWeb.Controllers
 {
     public class LeavesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private UserManager<ApplicationUser> _userManager { get; }
 
-        public LeavesController(ApplicationDbContext context)
+        public LeavesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
+
         }
 
+        /*        [Authorize]
+                // GET: Leaves
+                public async Task<IActionResult> Index()
+                {
+                    var applicationDbContext = _context.Leaves.Include(l => l.LeaveType);
+
+
+                    // Check for TempData messages and add them to the ViewBag
+                    ViewBag.SuccessMessage = TempData["SuccessMessage"];
+                    ViewBag.ErrorMessage = TempData["ErrorMessage"];
+
+                    return View(await applicationDbContext.ToListAsync());
+                }*/
+
+        /*        [Authorize]
+                public async Task<IActionResult> Index()
+                {
+                    var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
+                    var userLeaves = _context.Leaves
+                        .Where(l => l.OwnerId == currentUser.Id)
+                        .Include(l => l.LeaveType)
+                        .ToList();
+
+                    // Check for TempData messages and add them to the ViewBag
+                    ViewBag.SuccessMessage = TempData["SuccessMessage"];
+                    ViewBag.ErrorMessage = TempData["ErrorMessage"];
+
+                    return View(userLeaves);
+                }
+        */
+
+
+
+        [Authorize]
         // GET: Leaves
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Leaves.Include(l => l.Employee).Include(l => l.LeaveType);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            // Check if the user is an administrator
+            if (await _userManager.IsInRoleAsync(user, "Administrator"))
+            {
+                var allLeaves = await _context.Leaves.Include(l => l.LeaveType).ToListAsync();
+                return View(allLeaves);
+            }
+            else
+            {
+                var userLeaves = await _context.Leaves
+                    .Where(l => l.OwnerId == user.Id)
+                    .Include(l => l.LeaveType)
+                    .ToListAsync();
+                return View(userLeaves);
+            }
 
             // Check for TempData messages and add them to the ViewBag
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
             ViewBag.ErrorMessage = TempData["ErrorMessage"];
-
-            return View(await applicationDbContext.ToListAsync());
         }
+
+
+
+
+
+
+
+
 
         // GET: Leaves/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -40,7 +101,7 @@ namespace HRWeb.Controllers
             }
 
             var leave = await _context.Leaves
-                .Include(l => l.Employee)
+                
                 .Include(l => l.LeaveType)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (leave == null)
@@ -51,21 +112,69 @@ namespace HRWeb.Controllers
             return View(leave);
         }
 
+
+
+
+
+
+        [Authorize]
         // GET: Leaves/Create
         public IActionResult Create()
         {
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name");
+
+            // Populate the ViewData for the dropdown lists
             ViewData["LeaveTypeId"] = new SelectList(_context.LeaveType, "Id", "Name");
+
             return View();
         }
+
+
+
+        // POST: Leaves/Create
+        /*        [HttpPost]
+                [ValidateAntiForgeryToken]
+                public async Task<IActionResult> Create([Bind("Id,LeaveStartDate,LeaveEndDate,Reason,Status,LeaveTypeId")] Leave leave)
+                {
+                    if (ModelState.IsValid)
+                    {
+                        leave.Status = "Pending";
+
+                        _context.Add(leave);
+                        await _context.SaveChangesAsync();
+
+                        // Add success message to TempData
+                        TempData["SuccessMessage"] = "Leave request has been created successfully.";
+
+                        return RedirectToAction(nameof(Index));
+                    }
+
+                    ViewData["LeaveTypeId"] = new SelectList(_context.LeaveType, "Id", "Name", leave.LeaveTypeId);
+
+                    // Add error message to TempData
+                    TempData["ErrorMessage"] = "Failed to create leave request.";
+
+                    return View(leave);
+                }*/
+
+
+
 
         // POST: Leaves/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LeaveStartDate,LeaveEndDate,Reason,Status,EmployeeId,LeaveTypeId")] Leave leave)
+        public async Task<IActionResult> Create([Bind("Id,LeaveStartDate,LeaveEndDate,Reason,Status,LeaveTypeId")] Leave leave)
         {
+
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            // Set the owner of the leave request to the current user
+            leave.OwnerId = user.Id;
+
             if (ModelState.IsValid)
             {
+                // Get the currently logged in user
+
+
                 leave.Status = "Pending";
 
                 _context.Add(leave);
@@ -76,7 +185,7 @@ namespace HRWeb.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name", leave.EmployeeId);
+
             ViewData["LeaveTypeId"] = new SelectList(_context.LeaveType, "Id", "Name", leave.LeaveTypeId);
 
             // Add error message to TempData
@@ -84,6 +193,12 @@ namespace HRWeb.Controllers
 
             return View(leave);
         }
+
+
+
+
+
+
 
         // GET: Leaves/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -98,7 +213,7 @@ namespace HRWeb.Controllers
             {
                 return NotFound();
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name", leave.EmployeeId);
+            
             ViewData["LeaveTypeId"] = new SelectList(_context.LeaveType, "Id", "Name", leave.LeaveTypeId);
             return View(leave);
         }
@@ -106,7 +221,7 @@ namespace HRWeb.Controllers
         // POST: Leaves/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,LeaveStartDate,LeaveEndDate,Reason,EmployeeId,LeaveTypeId,Status")] Leave leave)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,LeaveStartDate,LeaveEndDate,Reason,LeaveTypeId,Status")] Leave leave)
         {
             if (id != leave.Id)
             {
@@ -139,7 +254,7 @@ namespace HRWeb.Controllers
                     }
                 }
             }
-            ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name", leave.EmployeeId);
+
             ViewData["LeaveTypeId"] = new SelectList(_context.LeaveType, "Id", "Name", leave.LeaveTypeId);
 
             // Add error message to TempData
@@ -158,7 +273,7 @@ namespace HRWeb.Controllers
             }
 
             var leave = await _context.Leaves
-                .Include(l => l.Employee)
+                
                 .Include(l => l.LeaveType)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (leave == null)

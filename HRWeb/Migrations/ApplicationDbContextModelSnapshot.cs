@@ -103,9 +103,9 @@ namespace HRWeb.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "e53161e1-d213-409e-bd41-ed20796f3ff3",
+                            Id = "4baa85a7-6941-47fb-8c4c-a21e1d5b684a",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "263dc627-c8d4-4abe-a1ce-f2d95e16366c",
+                            ConcurrencyStamp = "e7ccfe10-51ce-4b54-aaa3-08f9a0a450bc",
                             DOB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = 0,
                             Email = "admin@admin.com",
@@ -115,10 +115,10 @@ namespace HRWeb.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAELwwXbowVNlkB4xFsNvuWEfrvq/m9Xivj00radF2bYpboySnakgLdPV6v5KaAA4dkw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHKA6ii9p9fQhn9pkUIdMOL9aXs7c/bXsotisHBfPq+GF7U+qEU0LmoO74A1uI8S9w==",
                             PhoneNumber = "000000000",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "03eef2c5-ce5d-4ec0-8928-e6dab69e1452",
+                            SecurityStamp = "5e51f324-3dd5-47ac-a19a-06d4af65b50d",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -263,7 +263,7 @@ namespace HRWeb.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EmployeeId")
+                    b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("LeaveEndDate")
@@ -274,6 +274,10 @@ namespace HRWeb.Migrations
 
                     b.Property<int>("LeaveTypeId")
                         .HasColumnType("int");
+
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Reason")
                         .IsRequired()
@@ -380,15 +384,15 @@ namespace HRWeb.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b120a3f2-de7f-46dd-b17a-9a0804ca0517",
-                            ConcurrencyStamp = "042631cc-2a2f-4b8c-b0aa-3eabcde1751b",
+                            Id = "46fc6305-ea73-48f9-a827-c21329979bfb",
+                            ConcurrencyStamp = "4d94dffe-f60e-4b28-b924-6164c5f0f54c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "0739e3ff-02f0-458c-81b9-0905c550e488",
-                            ConcurrencyStamp = "9ec6078e-c63c-427c-9327-31ef5b74e4ea",
+                            Id = "36067cc1-f6bb-441b-938c-cb89b211f23f",
+                            ConcurrencyStamp = "38360a7a-4691-4553-91ca-f05efa22649e",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -483,8 +487,8 @@ namespace HRWeb.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "e53161e1-d213-409e-bd41-ed20796f3ff3",
-                            RoleId = "b120a3f2-de7f-46dd-b17a-9a0804ca0517"
+                            UserId = "4baa85a7-6941-47fb-8c4c-a21e1d5b684a",
+                            RoleId = "46fc6305-ea73-48f9-a827-c21329979bfb"
                         });
                 });
 
@@ -520,19 +524,15 @@ namespace HRWeb.Migrations
 
             modelBuilder.Entity("HRWeb.Models.Leave", b =>
                 {
-                    b.HasOne("HRWeb.Models.Employee", "Employee")
+                    b.HasOne("HRWeb.Models.Employee", null)
                         .WithMany("Leaves")
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EmployeeId");
 
                     b.HasOne("HRWeb.Models.LeaveType", "LeaveType")
                         .WithMany("Leaves")
                         .HasForeignKey("LeaveTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Employee");
 
                     b.Navigation("LeaveType");
                 });
