@@ -25,7 +25,7 @@ namespace HRWeb.Models
         public string? OwnerId { get; set; }
         public ApplicationUser? Owner { get; set; }
 
-
+        [Display(Name = "Type of Leave")]
         public int LeaveTypeId { get; set; }
         [Display(Name = "Type of Leave")]
         public LeaveType? LeaveType { get; set; }

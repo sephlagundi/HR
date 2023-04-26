@@ -18,7 +18,7 @@
 
 
 
-<h1>Register User</h1>
+<h1>Update employee info</h1>
 
 <form asp-controller="User" asp-action="Update" method="post">
     <div asp-validation-summary="All" class="text-danger">
@@ -39,7 +39,7 @@
     </div>
     <div class="form-group">
         <label asp-for="Email" class="control-label"></label>
-        <input asp-for="Email" class="form-control" />
+        <input asp-for="Email" class="form-control" readonly />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div class="form-group">
@@ -58,61 +58,11 @@
         <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
         <span asp-validation-for="DepartmentId" class="text-danger"></span>
     </div>
-    <div class="form-group">
-        <label asp-for="Roles" class="control-label"></label>
-        <select asp-for="Roles" class="form-control" asp-items="ViewBag.Roles"></select>
-        <span asp-validation-for="Roles" class="text-danger"></span>
-    </div>
 
-
-
-@*
-    <ul class="list-group list-group-flush">
-        @if (Model.Roles.Any())
-        {
-            foreach (var role in Model.Roles)
-            {
-                // manage roles for user
-                <li class="list-group-item">@role</li>
-            }
-        }
-        else
-        {
-            <h6>No roles</h6>
-        }
-    </ul>*@
-
-
-
-
-
-
-
-
-
-
-
-@*    <div class="form-group">
-        <label asp-for="Roles" class="control-label"></label>
-        <select asp-for="Roles" asp-items="@roles" class="form-control"></select>
-        <span asp-validation-for="Roles" class="text-danger"></span>
-    </div>
-
-    <div class="form-group" style="width: 300px; height: 100px;">
-        <label asp-for="Roles" class="control-label"></label>
-        <select asp-for="Roles" asp-items="@Model.RoleList" class="form-control"></select>
-    </div>
-
-
-    <div class="form-group" style="width: 300px; height: 100px;">
-        <label asp-for="DepartmentId" class="control-label"></label>
-        <select asp-for="DepartmentId" asp-items="@Model.DepartmentList" class="form-control"></select>
-    </div>*@
-
-
-
+    <p></p>
     <div class="form-group">
         <input type="submit" value="Save" class="btn btn-primary" />
+        <a class="btn btn-outline-info" asp-action="Index">Back</a>
     </div>
 
 </form>

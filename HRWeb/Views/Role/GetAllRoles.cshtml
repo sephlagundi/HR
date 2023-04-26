@@ -35,8 +35,10 @@
                 <td>@role.Name</td>
 
 
-                <td><a class="btn btn-info"  asp-controller="Role" asp-action="Update" asp-route-roleId="@role.Id">Edit</a>
-                <a class="btn btn-info"  asp-controller="Role" asp-action="Delete" asp-route-roleId="@role.Id">Delete</a></td>
+                <td>
+                    <a class="btn btn-outline-dark"  asp-controller="Role" asp-action="Update" asp-route-roleId="@role.Id">Edit</a>
+                    <a class="btn btn-outline-danger"  asp-controller="Role" asp-action="Delete" asp-route-roleId="@role.Id">Delete</a></td>
+
             </tr>
         }
     </tbody>

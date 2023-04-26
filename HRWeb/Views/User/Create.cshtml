@@ -6,38 +6,7 @@
 @{
 }
 
-@*<h1>Add User</h1>
 
-<form asp-controller="User" asp-action="Create" method="post">
-    <div asp-validation-summary="All" class="text-danger">
-    </div>
-    <div>
-        <label asp-for="FirstName"></label>
-        <input asp-for="FirstName" />
-        <span asp-validation-for="FirstName"></span>
-    </div>
-    <div>
-        <label asp-for="LastName"></label>
-        <input asp-for="LastName" />
-        <span asp-validation-for="LastName"></span>
-    </div>
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div>
-        <label asp-for="ConfirmPassword"></label>
-        <input asp-for="ConfirmPassword" />
-        <span asp-validation-for="ConfirmPassword"></span>
-    </div>
-    <button type="submit">Register</button>
-</form>*@
 
 
 <div class="container mt-5">
@@ -73,12 +42,17 @@
             <label asp-for="ConfirmPassword"></label>
             <input class="form-control" asp-for="ConfirmPassword" placeholder="********" style="width: 300px;">
         </div>
-        <div class="form-group" style="width: 300px; height: 100px;">
+        <div class="form-group" style="width: 300px;">
             <label asp-for="DepartmentId" class="control-label"></label>
             <select asp-for="DepartmentId" asp-items="@Model.DepartmentList" class="form-control"></select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Register</button>
+
+        <p></p>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+            <a class="btn btn-outline-info" asp-action="Index">Back</a>
+        </div>
         
 
             </form>

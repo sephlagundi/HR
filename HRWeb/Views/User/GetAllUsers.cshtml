@@ -36,7 +36,7 @@
             <th scope="col">Email</th>
             <th scope="col">Date Of Birth</th>
             <th scope="col">Phone</th>
-            <th scope="col">Roles</th>
+@*            <th scope="col">Roles</th>*@
             <th scope="col">Departments</th>
             <th scope="col"></th>
             <th scope="col"></th>
@@ -53,14 +53,17 @@
                 <td>@user.Email</td>
                 <td>@user.DOB.ToString("d")</td>
                 <td>@user.Phone</td>
-                <td>@user.roleName</td>
+@*                <td>@user.roleName</td>*@
                 <td>@user.DepartmentName</td>
                 <td></td>
 
 
                 <td>
-                    <a class="btn btn-info" asp-controller="User" asp-action="Update" asp-route-userId="@user.userId">Edit</a> |
-                    <a class="btn btn-info" asp-controller="User" asp-action="Delete" asp-route-userId="@user.userId">Delete</a>
+                    
+                    <a class="btn btn-outline-dark asp-controller="User" asp-action="Update" asp-route-userId="@user.userId">Edit</a> |
+                    <a class="btn btn-outline-danger" asp-controller="User" asp-action="Delete" asp-route-userId="@user.userId">Delete</a>
+
+                    
                 </td>
 @*
                 <td><a asp-controller="User" asp-action="Details" asp-route-userId="@user.userId">View</a></td>
