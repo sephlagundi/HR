@@ -285,22 +285,30 @@ namespace HRWeb.Controllers
             return View(leave);
         }
 
-        // POST: Leaves/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Leaves == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Leaves'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Leaves' is null.");
             }
-            var leave = await _context.Leaves.FindAsync(id);
-            if (leave != null)
+
+            try
             {
-                _context.Leaves.Remove(leave);
+                var leave = await _context.Leaves.FindAsync(id);
+                if (leave != null)
+                {
+                    _context.Leaves.Remove(leave);
+                    await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Leave deleted successfully";
+                }
             }
-            
-            await _context.SaveChangesAsync();
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "Failed to delete leave";
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

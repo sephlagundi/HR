@@ -29,39 +29,70 @@ namespace HRWeb.Controllers
             _dbContext = dbContext;
         }
         // [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> GetAllUsersAsync()
         {
             var userViewModel = new List<UserRoleViewModel>();
             var userWithRole = _roleManager.Roles.ToList();
-
+            var loggedInUser = await _userManager.GetUserAsync(User); // get the logged in user
             foreach (var role in userWithRole)
             {
                 var userlist = await _userManager.GetUsersInRoleAsync(role.Name);
                 foreach (var user in userlist)
                 {
-                    // Get department name from department ID
-                    var departmentName = string.Empty;
-                    if (user.DepartmentId != null)
+                    // Check if the logged in user is an administrator. If so, add all users to the list.
+                    // Otherwise, only add the logged in user's data.
+                    if (User.IsInRole("Administrator"))
                     {
-                        var department = await _dbContext.Departments.FindAsync(user.DepartmentId);
-                        if (department != null)
+                        var departmentName = string.Empty;
+                        if (user.DepartmentId != null)
                         {
-                            departmentName = department.Name;
+                            var department = await _dbContext.Departments.FindAsync(user.DepartmentId);
+                            if (department != null)
+                            {
+                                departmentName = department.Name;
+                            }
                         }
-                    }
 
-                    userViewModel.Add(new UserRoleViewModel
+                        userViewModel.Add(new UserRoleViewModel
+                        {
+                            userId = user.Id,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                            Email = user.Email,
+                            DOB = (DateTime)user.DOB,
+                            Phone = user.PhoneNumber,
+                            roleName = role.Name,
+                            DepartmentId = user.DepartmentId,
+                            DepartmentName = departmentName
+                        });
+                    }
+                    else if (user.Id == loggedInUser.Id)
                     {
-                        userId = user.Id,
-                        FirstName = user.FirstName,
-                        LastName = user.LastName,
-                        Email = user.Email,
-                        DOB = (DateTime)user.DOB,
-                        Phone = user.PhoneNumber,
-                        roleName = role.Name,
-                        DepartmentId = user.DepartmentId,
-                        DepartmentName = departmentName
-                    });
+                        var departmentName = string.Empty;
+                        if (user.DepartmentId != null)
+                        {
+                            var department = await _dbContext.Departments.FindAsync(user.DepartmentId);
+                            if (department != null)
+                            {
+                                departmentName = department.Name;
+                            }
+                        }
+
+                        userViewModel.Add(new UserRoleViewModel
+                        {
+                            userId = user.Id,
+                            FirstName = user.FirstName,
+                            LastName = user.LastName,
+                            Email = user.Email,
+                            DOB = (DateTime)user.DOB,
+                            Phone = user.PhoneNumber,
+                            roleName = role.Name,
+                            DepartmentId = user.DepartmentId,
+                            DepartmentName = departmentName
+                        });
+                        break;
+                    }
                 }
             }
 
@@ -72,7 +103,7 @@ namespace HRWeb.Controllers
 
 
 
-        public IActionResult Details(string userId)
+            public IActionResult Details(string userId)
         {
             var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
             return View(user);

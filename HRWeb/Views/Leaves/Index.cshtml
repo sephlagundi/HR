@@ -5,17 +5,17 @@
     ViewData["Title"] = "Index";
 }
 
-@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+@if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success" role="alert">
-        @ViewBag.SuccessMessage
+        @TempData["SuccessMessage"]
     </div>
 }
 
-@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+@if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger" role="alert">
-        @ViewBag.ErrorMessage
+        @TempData["ErrorMessage"]
     </div>
 }
 
