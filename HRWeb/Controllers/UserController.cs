@@ -28,70 +28,40 @@ namespace HRWeb.Controllers
             _signInManager = signInManager;
             _dbContext = dbContext;
         }
-        [Authorize]
+        // [AllowAnonymous]
         public async Task<IActionResult> GetAllUsersAsync()
         {
             var userViewModel = new List<UserRoleViewModel>();
             var userWithRole = _roleManager.Roles.ToList();
-            var loggedInUser = await _userManager.GetUserAsync(User); // get the logged in user
+
             foreach (var role in userWithRole)
             {
                 var userlist = await _userManager.GetUsersInRoleAsync(role.Name);
                 foreach (var user in userlist)
                 {
-                    // Check if the logged in user is an administrator. If so, add all users to the list.
-                    // Otherwise, only add the logged in user's data.
-                    if (User.IsInRole("Administrator"))
+                    // Get department name from department ID
+                    var departmentName = string.Empty;
+                    if (user.DepartmentId != null)
                     {
-                        var departmentName = string.Empty;
-                        if (user.DepartmentId != null)
+                        var department = await _dbContext.Departments.FindAsync(user.DepartmentId);
+                        if (department != null)
                         {
-                            var department = await _dbContext.Departments.FindAsync(user.DepartmentId);
-                            if (department != null)
-                            {
-                                departmentName = department.Name;
-                            }
+                            departmentName = department.Name;
                         }
-
-                        userViewModel.Add(new UserRoleViewModel
-                        {
-                            userId = user.Id,
-                            FirstName = user.FirstName,
-                            LastName = user.LastName,
-                            Email = user.Email,
-                            DOB = (DateTime)user.DOB,
-                            Phone = user.PhoneNumber,
-                            roleName = role.Name,
-                            DepartmentId = user.DepartmentId,
-                            DepartmentName = departmentName
-                        });
                     }
-                    else if (user.Id == loggedInUser.Id)
+
+                    userViewModel.Add(new UserRoleViewModel
                     {
-                        var departmentName = string.Empty;
-                        if (user.DepartmentId != null)
-                        {
-                            var department = await _dbContext.Departments.FindAsync(user.DepartmentId);
-                            if (department != null)
-                            {
-                                departmentName = department.Name;
-                            }
-                        }
-
-                        userViewModel.Add(new UserRoleViewModel
-                        {
-                            userId = user.Id,
-                            FirstName = user.FirstName,
-                            LastName = user.LastName,
-                            Email = user.Email,
-                            DOB = (DateTime)user.DOB,
-                            Phone = user.PhoneNumber,
-                            roleName = role.Name,
-                            DepartmentId = user.DepartmentId,
-                            DepartmentName = departmentName
-                        });
-                        break;
-                    }
+                        userId = user.Id,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        DOB = (DateTime)user.DOB,
+                        Phone = user.PhoneNumber,
+                        roleName = role.Name,
+                        DepartmentId = user.DepartmentId,
+                        DepartmentName = departmentName
+                    });
                 }
             }
 
@@ -102,7 +72,7 @@ namespace HRWeb.Controllers
 
 
 
-            public IActionResult Details(string userId)
+        public IActionResult Details(string userId)
         {
             var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
             return View(user);
@@ -180,7 +150,15 @@ namespace HRWeb.Controllers
             return View(userViewModel);
         }
 
-        
+
+
+
+
+
+
+
+
+
 
 
 
@@ -192,32 +170,63 @@ namespace HRWeb.Controllers
             var roles = await _userManager.GetRolesAsync(user);
             EditUserViewModel userViewModel = new EditUserViewModel()
             {
-                /*Id = user.Id,*/
+                Id = user.Id,
                 FirstName = user.FirstName,
-                Email = user.Email,
                 LastName = user.LastName,
+                Email = user.Email,
+                DOB = (DateTime)user.DOB,
+                Phone = user.PhoneNumber,
                 DepartmentId = user.DepartmentId,
                 Roles = roles,
 
             };
 
             ViewData["DepartmentId"] = new SelectList(_dbContext.Departments, "Id", "Name", userViewModel.DepartmentId);
+            ViewData["Roles"] = new SelectList(_roleManager.Roles, "Id", "Name", userViewModel.Roles);
+
 
             return View(userViewModel);
-
         }
 
 
 
-                [HttpPost]
-                public async Task<IActionResult> Update(string userId, List<string> userRoles)
+        [HttpPost]
+        public async Task<IActionResult> Update(EditUserViewModel user)
+        {
+            if (ModelState.IsValid)
+            {
+                var oldValue = await _userManager.FindByIdAsync(user.Id.ToString());
+
                 {
-                    // Get the user by Id
-                    var user = await _userManager.FindByIdAsync(userId);
-                    if (user == null)
+                    oldValue.Id = user.Id; // make sure this is set correctly
+                    oldValue.FirstName = user.FirstName;
+                    oldValue.LastName = user.LastName;
+                    oldValue.Email = user.Email;
+                    oldValue.DOB = (DateTime)user.DOB;
+                    oldValue.PhoneNumber = user.Phone;
+                    oldValue.DepartmentId = user.DepartmentId;
+                    oldValue.Roles = user.Roles;
+
+                    // update the user object
+                    var result = await _userManager.UpdateAsync(oldValue);
+
+                    if (result.Succeeded)
                     {
-                        return NotFound();
+                        // add roles to user
+                        var roles = await _userManager.GetRolesAsync(oldValue);
+                        /*                        await _userManager.RemoveFromRolesAsync(oldValue, roles);
+                                                await _userManager.AddToRolesAsync(oldValue, user.Roles);*/
+
+                        TempData["AlertMessage"] = "Employee details updated successfully";
+                        return RedirectToAction("GetAllUsers", "User");
                     }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                }
+            }
 
             ViewData["DepartmentId"] = new SelectList(_dbContext.Departments, "Id", "Name", user.DepartmentId);
             ViewData["Roles"] = new SelectList(_roleManager.Roles, "Id", "Name", user.Roles);

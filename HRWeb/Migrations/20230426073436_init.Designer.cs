@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230426073201_init")]
+    [Migration("20230426073436_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,9 +105,9 @@ namespace HRWeb.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f15063e2-60a3-4611-bc9a-b4694b48e900",
+                            Id = "1ae31495-3de6-4739-84f9-ad2cfdf197ad",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "4cd404d1-de55-4205-82cb-a7e77bb4dc99",
+                            ConcurrencyStamp = "65faa4c7-b326-4213-acc4-4a06b8fdf8f7",
                             DOB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = 0,
                             Email = "admin@admin.com",
@@ -117,10 +117,10 @@ namespace HRWeb.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOa0Qqmw9G6fnQolRgjPi/Wsip8M6RAL50R27iw51dqoBwEuJ3iIQDAWB/I6mV+fhw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG86vposfmcB5ILoIin9nLGCgwgw4n1zdrEk2ZWqwMCmWphIAjGmyBuBi/VSrBdjdQ==",
                             PhoneNumber = "000000000",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "68754d25-68c8-4faf-af83-1f7fa299b69f",
+                            SecurityStamp = "ed9013cd-6c91-4389-8b41-fd889243e83e",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -387,15 +387,15 @@ namespace HRWeb.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "15811598-1a7f-4e08-8abf-870718e8ed07",
-                            ConcurrencyStamp = "23fb619e-cb00-4c45-83cf-8ff9c4078066",
+                            Id = "d0f6d619-1baf-49ec-ad7a-53322a7bf628",
+                            ConcurrencyStamp = "1d9d0c4c-ed3f-490e-811f-f39b46c60a55",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "04590695-3e69-4388-bf79-3b440a1ae7d4",
-                            ConcurrencyStamp = "7ee509be-c15a-4d67-9b55-a5e37ebd73da",
+                            Id = "299759d7-8fb5-4171-9e79-53b10cc42b7f",
+                            ConcurrencyStamp = "b4c52456-da2f-4f11-b42b-503fda70fe80",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -490,8 +490,8 @@ namespace HRWeb.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "f15063e2-60a3-4611-bc9a-b4694b48e900",
-                            RoleId = "15811598-1a7f-4e08-8abf-870718e8ed07"
+                            UserId = "1ae31495-3de6-4739-84f9-ad2cfdf197ad",
+                            RoleId = "d0f6d619-1baf-49ec-ad7a-53322a7bf628"
                         });
                 });
 
