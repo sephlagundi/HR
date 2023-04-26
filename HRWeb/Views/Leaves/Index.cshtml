@@ -63,14 +63,13 @@
            <tr>
                 <td>@string.Format("{0} {1}", item.Owner.FirstName, item.Owner.LastName)</td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.LeaveStartDate)
+                    @item.CreatedDate.ToShortDateString()
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LeaveEndDate)
+                    @item.LeaveStartDate.ToShortDateString()
+                </td>
+                <td>
+                    @item.LeaveEndDate.ToShortDateString()
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LeaveType.Name)
