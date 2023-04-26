@@ -1,4 +1,5 @@
 ﻿using HRWeb.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,14 +21,9 @@ namespace HRWeb.Models
         public string Reason { get; set; }
         public string Status { get; set; } = "pending";
 
-       
+
         public string? OwnerId { get; set; }
-
-
-
-
-
-
+        public ApplicationUser? Owner { get; set; }
 
 
         public int LeaveTypeId { get; set; }
@@ -35,10 +31,6 @@ namespace HRWeb.Models
         public LeaveType? LeaveType { get; set; }
 
 
-
-
-
-        
 
 
 

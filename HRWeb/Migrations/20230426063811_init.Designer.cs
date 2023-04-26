@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRWeb.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230426053815_init")]
+    [Migration("20230426063811_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,9 +105,9 @@ namespace HRWeb.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "4baa85a7-6941-47fb-8c4c-a21e1d5b684a",
+                            Id = "adafb136-e1c3-4649-8587-91d84095f9f8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e7ccfe10-51ce-4b54-aaa3-08f9a0a450bc",
+                            ConcurrencyStamp = "9de52ad7-2b09-4e93-8f1f-f17d512ae391",
                             DOB = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = 0,
                             Email = "admin@admin.com",
@@ -117,10 +117,10 @@ namespace HRWeb.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@ADMIN.COM",
                             NormalizedUserName = "ADMIN@ADMIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHKA6ii9p9fQhn9pkUIdMOL9aXs7c/bXsotisHBfPq+GF7U+qEU0LmoO74A1uI8S9w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEGD9Ue1ZY7l9NNa07oZi1xNMX2cDFvaOKEX4Ce3Rmkj5IvNvY8JkYuMZ7a77vCEGJw==",
                             PhoneNumber = "000000000",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5e51f324-3dd5-47ac-a19a-06d4af65b50d",
+                            SecurityStamp = "18aab56f-6c19-4f3d-b074-b1336c90e41e",
                             TwoFactorEnabled = false,
                             UserName = "admin@admin.com"
                         });
@@ -278,8 +278,7 @@ namespace HRWeb.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("OwnerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Reason")
                         .IsRequired()
@@ -294,6 +293,8 @@ namespace HRWeb.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("LeaveTypeId");
+
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("Leaves");
                 });
@@ -386,15 +387,15 @@ namespace HRWeb.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "46fc6305-ea73-48f9-a827-c21329979bfb",
-                            ConcurrencyStamp = "4d94dffe-f60e-4b28-b924-6164c5f0f54c",
+                            Id = "df129ea5-bb81-41c6-b30f-7b3f7f2ff3a2",
+                            ConcurrencyStamp = "86465062-fd5e-4352-94fd-e712b8706532",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "36067cc1-f6bb-441b-938c-cb89b211f23f",
-                            ConcurrencyStamp = "38360a7a-4691-4553-91ca-f05efa22649e",
+                            Id = "64389191-f6d4-4828-b888-de915856f73a",
+                            ConcurrencyStamp = "fd657962-f338-4f04-aa32-659493b0e2eb",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -489,8 +490,8 @@ namespace HRWeb.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "4baa85a7-6941-47fb-8c4c-a21e1d5b684a",
-                            RoleId = "46fc6305-ea73-48f9-a827-c21329979bfb"
+                            UserId = "adafb136-e1c3-4649-8587-91d84095f9f8",
+                            RoleId = "df129ea5-bb81-41c6-b30f-7b3f7f2ff3a2"
                         });
                 });
 
@@ -536,7 +537,13 @@ namespace HRWeb.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("HRWeb.Models.ApplicationUser", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerId");
+
                     b.Navigation("LeaveType");
+
+                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

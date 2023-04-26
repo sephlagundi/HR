@@ -218,7 +218,7 @@ namespace HRWeb.Migrations
                     LeaveEndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Reason = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OwnerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     LeaveTypeId = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EmployeeId = table.Column<int>(type: "int", nullable: true)
@@ -226,6 +226,11 @@ namespace HRWeb.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Leaves", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Leaves_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Leaves_Employees_EmployeeId",
                         column: x => x.EmployeeId,
@@ -244,14 +249,14 @@ namespace HRWeb.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "36067cc1-f6bb-441b-938c-cb89b211f23f", "38360a7a-4691-4553-91ca-f05efa22649e", "User", "USER" },
-                    { "46fc6305-ea73-48f9-a827-c21329979bfb", "4d94dffe-f60e-4b28-b924-6164c5f0f54c", "Administrator", "ADMINISTRATOR" }
+                    { "64389191-f6d4-4828-b888-de915856f73a", "fd657962-f338-4f04-aa32-659493b0e2eb", "User", "USER" },
+                    { "df129ea5-bb81-41c6-b30f-7b3f7f2ff3a2", "86465062-fd5e-4352-94fd-e712b8706532", "Administrator", "ADMINISTRATOR" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DOB", "DepartmentId", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "4baa85a7-6941-47fb-8c4c-a21e1d5b684a", 0, "e7ccfe10-51ce-4b54-aaa3-08f9a0a450bc", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "admin@admin.com", true, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEHKA6ii9p9fQhn9pkUIdMOL9aXs7c/bXsotisHBfPq+GF7U+qEU0LmoO74A1uI8S9w==", "000000000", false, "5e51f324-3dd5-47ac-a19a-06d4af65b50d", false, "admin@admin.com" });
+                values: new object[] { "adafb136-e1c3-4649-8587-91d84095f9f8", 0, "9de52ad7-2b09-4e93-8f1f-f17d512ae391", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 0, "admin@admin.com", true, "Admin", "Admin", false, null, "ADMIN@ADMIN.COM", "ADMIN@ADMIN.COM", "AQAAAAEAACcQAAAAEGD9Ue1ZY7l9NNa07oZi1xNMX2cDFvaOKEX4Ce3Rmkj5IvNvY8JkYuMZ7a77vCEGJw==", "000000000", false, "18aab56f-6c19-4f3d-b074-b1336c90e41e", false, "admin@admin.com" });
 
             migrationBuilder.InsertData(
                 table: "Departments",
@@ -282,7 +287,7 @@ namespace HRWeb.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "46fc6305-ea73-48f9-a827-c21329979bfb", "4baa85a7-6941-47fb-8c4c-a21e1d5b684a" });
+                values: new object[] { "df129ea5-bb81-41c6-b30f-7b3f7f2ff3a2", "adafb136-e1c3-4649-8587-91d84095f9f8" });
 
             migrationBuilder.InsertData(
                 table: "Employees",
@@ -349,6 +354,11 @@ namespace HRWeb.Migrations
                 name: "IX_Leaves_LeaveTypeId",
                 table: "Leaves",
                 column: "LeaveTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Leaves_OwnerId",
+                table: "Leaves",
+                column: "OwnerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

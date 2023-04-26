@@ -67,7 +67,7 @@ namespace HRWeb.Controllers
             // Check if the user is an administrator
             if (await _userManager.IsInRoleAsync(user, "Administrator"))
             {
-                var allLeaves = await _context.Leaves.Include(l => l.LeaveType).ToListAsync();
+                var allLeaves = await _context.Leaves.Include(l => l.LeaveType).Include(l => l.Owner).ToListAsync();
                 return View(allLeaves);
             }
             else
@@ -75,6 +75,7 @@ namespace HRWeb.Controllers
                 var userLeaves = await _context.Leaves
                     .Where(l => l.OwnerId == user.Id)
                     .Include(l => l.LeaveType)
+                    .Include(l => l.Owner)
                     .ToListAsync();
                 return View(userLeaves);
             }

@@ -28,9 +28,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.OwnerId)
-            </th>
+            <th scope="col">Full Name</th>
             <th>
                 @Html.DisplayNameFor(model => model.CreatedDate)
             </th>
@@ -56,13 +54,9 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OwnerId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
+           <tr>
+                <td>@string.Format("{0} {1}", item.Owner.FirstName, item.Owner.LastName)</td>
+
                 <td>
                     @Html.DisplayFor(modelItem => item.LeaveStartDate)
                 </td>
