@@ -98,14 +98,31 @@ namespace HRWeb.Controllers
 
         public async Task<IActionResult> Delete(string roleId)
         {
-            var oldRole = await _roleManager.FindByIdAsync(roleId);
+            var role = await _roleManager.FindByIdAsync(roleId);
 
-            var rolelist = _roleManager.DeleteAsync(oldRole);
-            TempData["AlertMessage"] = "Role deleted successfuly";
-            return RedirectToAction(controllerName: "Role", actionName: "GetAllRoles"); // reload the getall page it self
+            if (role == null)
+            {
+                return NotFound();
+            }
+
+            return View(role);
         }
 
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(string roleId)
+        {
+            var role = await _roleManager.FindByIdAsync(roleId);
 
+            if (role == null)
+            {
+                return NotFound();
+            }
 
+            await _roleManager.DeleteAsync(role);
+
+            TempData["AlertMessage"] = "Role deleted successfully";
+
+            return RedirectToAction("GetAllRoles", "Role");
+        }
     }
 }

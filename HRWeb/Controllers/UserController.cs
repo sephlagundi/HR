@@ -77,12 +77,23 @@ namespace HRWeb.Controllers
             var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
             return View(user);
         }
-        public async Task<IActionResult> Delete(string userId)
+        public async Task<IActionResult> Delete(string userId, bool? confirmed = false)
         {
+            if (!confirmed.GetValueOrDefault())
+            {
+                return View("DeleteConfirmation", userId);
+            }
+
             var user = _userManager.Users.FirstOrDefault(u => u.Id == userId);
             var userlist = await _userManager.DeleteAsync(user);
-            TempData["AlertMessage"] = "Employee deleted successfuly";
-            return RedirectToAction(controllerName: "User", actionName: "GetAllUsers"); // reload the getall page it self
+            TempData["AlertMessage"] = "Employee deleted successfully";
+            return RedirectToAction(controllerName: "User", actionName: "GetAllUsers");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(string userId)
+        {
+            return RedirectToAction(nameof(Delete), new { userId = userId, confirmed = true });
         }
 
         [HttpGet]
